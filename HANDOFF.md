@@ -1,6 +1,6 @@
 # HANDOFF — Pascal The Popcorn (personal build of this ARVIO fork)
 
-Updated 2026-11-02 ~23:40 CDT (Claude Code). **Read this first** when resuming. Plan, goals and the shared contract: [`PERSONAL_PLAN.md`](PERSONAL_PLAN.md). **1.0.1 plan + the 1.0.2 list: [`PLAN-1.0.1.md`](PLAN-1.0.1.md).**
+Updated 2026-11-03 (Claude Code). **Read this first** when resuming. **Current work: 1.0.2 planning, see [`PLAN-1.0.2.md`](PLAN-1.0.2.md) (in progress, nothing coded; don't start until the owner says the whole plan is finished).** Plan, goals and the shared contract: [`PERSONAL_PLAN.md`](PERSONAL_PLAN.md). **1.0.1 plan + the 1.0.2 list: [`PLAN-1.0.1.md`](PLAN-1.0.1.md).**
 
 > **Never push this repo.** `origin` is the public upstream `ProdigyV21/ARVIO` (someone else's project). Everything here is Brain-local. Keys live in git-ignored `secrets.properties`.
 
@@ -13,10 +13,25 @@ Updated 2026-11-02 ~23:40 CDT (Claude Code). **Read this first** when resuming. 
 | APK (private copy) | `~/.local/state/new-tv/ptp-builds/Pascal-The-Popcorn-1.0.1.apk`, 129,136,754 B, sha256 `7b8435052bd4f0fce8cc966deb70b0b690826da9c77d4e7c8fb0c837e65969f7` (1.0 APK kept alongside; both in `SHA256SUMS`) |
 | ABIs | arm64-v8a + armeabi-v7a (one universal APK) |
 | Signer | Brain debug key, cert SHA-256 `ee3441c2…bfae8` |
-| Published | Private GitHub repo **ReyesPascal/Pascal-The-Popcorn**: release **v1.0** only. **1.0.1 is not published** (owner decides). |
-| Installed on | **Hisense 65U6H** (fresh install of 1.0.1 on 2026-11-02 23:10, `adb -s 100.98.246.40:5555`; old app + data removed first by the owner; `cmd package compile -m speed` → status=speed). **Not on the TCL.** |
+| Published | Private GitHub repo **ReyesPascal/Pascal-The-Popcorn**: releases **v1.0** and **v1.0.1** (Latest, 2026-11-02). Source snapshot on branch `source` (bc1747f + docs updates). |
+| Installed on | **Hisense 65U6H** (fresh install of 1.0.1 on 2026-11-02 23:10, `adb -s <tv-adb-address>`; old app + data removed first by the owner; `cmd package compile -m speed` → status=speed). Also the **TCL** (1.0.1 fresh install 2026-11-02 ~23:37, `adb -s <tv-adb-address>`, **no** speed-compile per owner). TCL scan: 1080p, HDR10+HLG, no DV. If TCL Play says "No streams found", check Tailscale is connected first. |
 | Tested on the Hisense | Scan says **4K** (from `vendor.display-size=3840x2160`), DV P4/5/8/9/10, HDR10/HDR10+/HLG. First Play works first time (movie 155: page drawn 230 ms; picked UU #0 4K DV 23.4 GB with preference Dolby Vision; Play→first frame 14.7 s, of which 11.0 s waiting for UU's search). Bake Off 2026 episode won't play (no IMDb ID on TMDB 87012) → 1.0.2 item 2. |
 | Unit tests | Picker 29 + size 2 + overrides 11 + details 15 pass. 13 older details tests (watchlist/stream-completion) fail exactly as before 1.0.1 (Log not mocked / DataStore NPE; 3 now reach assertions because the personal build skips the watchlist read on purpose). |
+
+## Session 2026-11-03: 1.0.2 planning (not coded)
+- **Crash seen on the Hisense** (QR screen at launch = the leftover crash notice):
+  - Cause: Android 11 `SecurityException: Package android does not belong to <uid>`, from `getNetworkCapabilities` in `network/NetworkMonitor.kt`, created when a movie page opens (crash buffer 2026-11-02 23:54).
+  - The fix is planned (PLAN-1.0.2 Part 1).
+  - Nothing was sent anywhere: `ENABLE_CRASH_REPORTING=false` in the personal release.
+- **Owner decisions:** a big clean-up. The full list is in **PLAN-1.0.2.md → "Decisions log"**. In short:
+  - Remove Accounts/Trakt, Playback (→ Advanced), Language, Subtitles, AI subtitles (incl. Sync by Hearing), Stream integrations (UU only), Telegram, Live TV, Home server, collections, trailers, translations, and everything previously only hidden (Home rows, movie-page extras, profiles, plugins, cloud, Discord).
+  - Top bar → Search · Home · Library · Settings. **+ Watchlist** button. Per-show auto-play. TVmaze air times for the calendar.
+- **Open items** (next session): crash QR screen, Cast, self-updater, Firebase, repo-only folders; Settings sections Add-ons / Catalogs / Interface / Network; whether to fold in the old 1.0.2 items (UU lookup reuse, Bake Off merge); the implementation approach.
+- **Found while planning:**
+  - `secrets.properties` Trakt keys are placeholders, so Trakt public data never worked.
+  - Both TVs expose only 60/50 Hz display modes to apps, so there's no 24p switching.
+  - `HomeViewModel` loads hidden catalog rows in the background (wasted work).
+  - The PTP APK carries ~39 MB TDLib + ~46 MB sherpa-onnx native libraries that 1.0.2 removes.
 
 ## 1.0.1 (on top of 1.0)
 1. **First-Play fix:** a cancelled stream search (Play closing the movie page) is rethrown, never logged/cached as "no sources" (`StreamRepository.kt`, 4 catch blocks + `ensureActive()` before caching). This was the false "No streams found" on the first Play.
