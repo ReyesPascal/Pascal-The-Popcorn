@@ -1,22 +1,29 @@
 # HANDOFF — Pascal The Popcorn
 
-Updated 2026-11-02 ~21:55 CDT (Claude Code). Summary copy for this repo. The **full handoff** (with source paths) lives in the app source on Brain, as `HANDOFF.md` next to `PERSONAL_PLAN.md`, on branch `personal-tv-aware`.
+Updated 2026-11-02 ~23:59 CDT (Claude Code). Summary copy for this repo. The **full handoff** lives with the app source as `HANDOFF.md` (plus `PLAN-1.0.1.md` with the 1.0.2 list).
 
-> The app source is **Brain-local only and never pushed**: its git remote is the original public project, which belongs to someone else. Keys live in a git-ignored `secrets.properties` there.
+> **Source:** a snapshot of the working code is on this repo's **`source`** branch (one commit, no old history). Day-to-day development stays in the app source folder on Brain, whose own git remote is the original public project and is never pushed. The TMDB key lives in a git-ignored `secrets.properties`.
 
 ## Current state
 
 | | |
 |---|---|
-| App | **Pascal-The-Popcorn 1.0**: `versionName 1.0`, `versionCode 322`. The internal package ID is unchanged from the previous personal build. |
-| Source | Branch `personal-tv-aware` @ `132881a` (handoff commit `cf10660`) |
-| APK | Release **v1.0** in this repo, plus a private copy on Brain: `~/.local/state/new-tv/ptp-builds/Pascal-The-Popcorn-1.0.apk`. 129,091,946 B, sha256 `9836c4ec296ee0794ab9bf53a606a7ab927993af855f4034ac6589950c9444a0` |
+| App | **Pascal-The-Popcorn 1.0.1**: `versionName 1.0.1`, `versionCode 323`. Internal package ID unchanged. |
+| Source | `source` branch of this repo (snapshot of branch `personal-tv-aware` @ handoff commit `b939003` on Brain) |
+| APK | Release **v1.0.1** in this repo (v1.0 kept), plus a private copy on Brain: `~/.local/state/new-tv/ptp-builds/Pascal-The-Popcorn-1.0.1.apk`. 129,136,754 B, sha256 `7b8435052bd4f0fce8cc966deb70b0b690826da9c77d4e7c8fb0c837e65969f7` |
 | ABIs | arm64-v8a + armeabi-v7a (one universal APK) |
-| Signer | Brain debug key, cert SHA-256 `ee3441c2…bfae8`. It's the same key as the previous personal build, so it upgrades that install in place. |
-| Installed on | **No TV yet.** The TCL's previous build was uninstalled on 2026-11-02; the Hisense still runs the previous personal build. |
-| Tested | Compiles. BestSourcePicker unit tests pass (20/20). **Not yet tested on a real TV.** |
+| Signer | Brain debug key, cert SHA-256 `ee3441c2…bfae8` (upgrades 1.0 in place) |
+| Installed on | **Hisense 65U6H** (fresh install 2026-11-02 23:10, speed-compiled). Not on the TCL. |
+| Tested on the Hisense | TV check says 4K, Dolby Vision P4/5/8/9/10, HDR10/HDR10+/HLG. First Play works first time. Movie page drawn in 0.23 s; Play→first frame 14.7 s (11 s of it Usenet Ultimate's search). |
 
-## What 1.0 changes (owner's goals)
+## What 1.0.1 adds
+See [CHANGELOG.md](CHANGELOG.md): TV check with owner corrections and preferred picture format, first-Play fix, 4K detection, lean movie page that loads only what it shows, empty-Home focus, timing/decision log lines (`[TvScan]`, `[BestSource]`, `[PageTiming]`, `[PlaybackDiag]`).
+
+## 1.0.2 list (not started)
+1. Play takes over the movie page's background Usenet Ultimate search instead of starting a new one (would cut most of the 11 s wait).
+2. Merge *The Great British Bake Off* into one show (IMDb tt1877368, seasons 1–17): the 2017+ listing has no IMDb number; IMDb numbers it seasons 8–17.
+
+## What 1.0 changed (owner's goals)
 1. **Startup timeout:** at least 30 s (hard timeout about 42 s, cap 45 s). This fixes first Usenet plays giving up after 14 s.
 2. **Removed:** cloud (its endpoints point at a dead `.invalid` host; no sync, realtime or analytics), plugins, Discord, sports, and every mention of them in the UI.
 3. **No profiles:** one hidden built-in profile, never "Who's watching?".
@@ -67,10 +74,8 @@ export ANDROID_HOME=$HOME/Android/Sdk
 - **Multi-agent builds:** start fresh agents from the latest commit, with strict file ownership as in `PERSONAL_PLAN.md`.
 
 ## Open / next
-1. The owner decides installs: TCL, Hisense, or both. The Hisense can upgrade in place and keep its history.
-2. On-TV test: the This TV summary, Play starting directly, the retry path, the first-play wait of at least 30 s, and Continue Watching resume.
-3. Later: change how Settings is reached.
-4. Known gaps:
-   - The "This TV" summary refreshes only when Settings is reopened.
-   - The Privacy-policy row still links to the original project's site.
-   - Home is empty until something has been watched.
+1. Owner keeps testing 1.0.1 on the Hisense; then the 1.0.2 list.
+2. Owner decides: install on the TCL.
+3. After every install: `cmd package compile -m speed <package>`.
+4. Later: change how Settings is reached.
+5. Known gaps: the Privacy-policy row still links to the original project's site; Home is empty until something has been watched.
