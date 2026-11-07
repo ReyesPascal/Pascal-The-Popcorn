@@ -1,5 +1,7 @@
 # HANDOFF — Pascal The Popcorn (personal build of this ARVIO fork)
 
+> **2026-11-07: this file is out of date (it describes 1.0.1 / early 1.0.2 planning).** Current version is **1.0.2.1** (versionCode 325, done and installed on the Hisense). Read [`PLAN-1.0.2.md`](PLAN-1.0.2.md) and [`PLAN-1.0.2.1.md`](PLAN-1.0.2.1.md) instead; the remaining 1.0.3 backlog is in `ptp-wt/STATUS.md` on Brain.
+
 Updated 2026-11-03 (Claude Code). **Read this first** when resuming. **Current work: 1.0.2 planning, see [`PLAN-1.0.2.md`](PLAN-1.0.2.md) (in progress, nothing coded; don't start until the owner says the whole plan is finished).** Plan, goals and the shared contract: [`PERSONAL_PLAN.md`](PERSONAL_PLAN.md). **1.0.1 plan + the 1.0.2 list: [`PLAN-1.0.1.md`](PLAN-1.0.1.md).**
 
 > **Never push this repo.** `origin` is the public upstream `ProdigyV21/ARVIO` (someone else's project). Everything here is Brain-local. Keys live in git-ignored `secrets.properties`.
