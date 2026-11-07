@@ -5,7 +5,7 @@ Status: **backlog only — nothing started.** Owner decides order. Redesign item
 
 ## Bugs / fixes
 1. **"No sources" after UU unreachable.** StreamRepository caches EMPTY results (`STREAM_RESULT_EMPTY_CACHE_TTL_MS`, 15 s, also persisted), so a quick retry repeats "No sources". Fix: don't cache empty when UU is unreachable/errored, auto-retry once, show "Can't reach Usenet Ultimate".
-2. **Stall after seek.** Confirmed 2026-11-06 20:25 (Primetime 4K DV, UU): skip +30 s → app logged nothing after, no new UU stream activity. Also decoder stall / black-video recovery never reconnects. Fix + add player state/seek/buffer diag events so the logger can see why.
+2. **Stall after seek.** Confirmed 2026-11-06 20:25 (Primetime 4K DV, UU): skip +30 s → app logged nothing after, no new UU stream activity. Also decoder stall / black-video recovery never reconnects. Suspect (unproven): Hisense DV decoder hangs after flush/seek. **Fix approach NOT decided** — owner rejected (2026-11-07) DV→HDR10 fallback, stall watchdog, and "just add more logging". Plan with owner first. Proposed first step: play the same file on the Hisense in another player (Kodi / Just Player) with the same +30 s skips — freezes there = TV DV chip; no freeze = PTP seek code bug (fix it, keep DV).
 3. **Aspect-button mash pauses video.** PlayerScreen auto-hide timer is keyed only on (showControls, isPlaying, seek phase); aspect/rewind/forward presses don't reset it → controls hide after 5 s, next OK re-shows with focus on Play, further OKs toggle pause. Covered by item 5.
 4. **Bundled add-ons no longer auto-install.** Restore the `seedBundledAddons()` call; add AIOMetadata.
 
