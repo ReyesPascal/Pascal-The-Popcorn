@@ -1,0 +1,3168 @@
+package com.arflix.tv.ui.screens.details
+
+import androidx.activity.compose.BackHandler
+import android.content.Context
+import android.os.Build
+import android.os.SystemClock
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.MutatePriority
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
+import com.arflix.tv.ui.components.LocalBottomBarInset
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed as standardItemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.runtime.mutableStateMapOf
+import com.arflix.tv.util.settingsDataStore
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.BookmarkBorder
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.platform.testTag
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.tv.foundation.lazy.list.TvLazyColumn
+import androidx.tv.foundation.lazy.list.TvLazyListState
+import androidx.tv.foundation.lazy.list.TvLazyRow
+import androidx.tv.foundation.lazy.list.itemsIndexed
+import androidx.tv.foundation.lazy.list.rememberTvLazyListState
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.Text
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import coil.imageLoader
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Precision
+import com.arflix.tv.R
+import com.arflix.tv.data.model.Episode
+import com.arflix.tv.data.model.EpisodeIdentity
+import com.arflix.tv.data.model.MediaItem
+import com.arflix.tv.data.model.MediaType
+import com.arflix.tv.data.model.StreamSource
+import com.arflix.tv.ui.components.EpisodeContextMenu
+import com.arflix.tv.ui.components.SeasonContextMenu
+import com.arflix.tv.ui.components.AppTopBar
+import com.arflix.tv.ui.components.AppTopBarContentTopInset
+import com.arflix.tv.ui.components.CardLayoutMode
+import com.arflix.tv.ui.components.DetailsTvHeroLayout
+import com.arflix.tv.ui.components.AppTopBarHeight
+import com.arflix.tv.ui.components.MediaCard
+import com.arflix.tv.ui.components.resolveDetailsBackdropHeightDp
+import com.arflix.tv.ui.components.rememberCatalogueRowLayoutMode
+import com.arflix.tv.ui.components.SidebarItem
+import com.arflix.tv.ui.components.SkeletonDetailsPage
+import com.arflix.tv.ui.components.SkeletonEpisodeCard
+import com.arflix.tv.ui.components.StreamSelector
+import androidx.compose.ui.zIndex
+import com.arflix.tv.ui.components.Toast
+import com.arflix.tv.ui.components.topBarFocusedItem
+import com.arflix.tv.ui.components.topBarMaxIndex
+import com.arflix.tv.ui.components.topBarSelectedIndex
+import com.arflix.tv.ui.focus.arvioManualBringIntoViewBoundary
+import com.arflix.tv.ui.focus.arvioDpadFocusGroup
+import com.arflix.tv.ui.focus.isArvioDpadNavigationKey
+import com.arflix.tv.ui.focus.DetailsFocusIndices
+import com.arflix.tv.ui.focus.DetailsSectionContent
+import com.arflix.tv.ui.focus.FocusSection
+import com.arflix.tv.ui.focus.handleLeft
+import com.arflix.tv.ui.focus.handleRight
+import com.arflix.tv.ui.focus.isAtLeftmost
+import com.arflix.tv.ui.focus.moveDownSection
+import com.arflix.tv.ui.focus.moveUpSection
+import com.arflix.tv.ui.focus.rememberArvioDpadRepeatGate
+import com.arflix.tv.ui.skin.ArvioFocusableSurface
+import com.arflix.tv.ui.skin.ArvioSkin
+import com.arflix.tv.ui.skin.rememberArvioCardShape
+import com.arflix.tv.ui.skin.resolveAccentColor
+import com.arflix.tv.ui.theme.AnimationConstants
+import com.arflix.tv.ui.theme.ArflixTypography
+import com.arflix.tv.ui.theme.appBackgroundDark
+import com.arflix.tv.ui.theme.Pink
+import com.arflix.tv.ui.theme.Purple
+import com.arflix.tv.ui.theme.TextSecondary
+import com.arflix.tv.data.merge.ShowMergeTable
+import com.arflix.tv.util.Constants
+import com.arflix.tv.util.LocalDeviceType
+import com.arflix.tv.util.TmdbImageSizing
+import com.arflix.tv.util.formatGenreName
+import com.arflix.tv.util.isInCinema
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import kotlin.math.abs
+import androidx.compose.ui.res.stringResource
+
+
+private object DetailsScreenRegexes {
+    val YEAR_REGEX = Regex("""\d{4}""")
+}
+
+/**
+ * Details screen for movies and TV shows
+ */
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+fun DetailsScreen(
+    mediaType: MediaType,
+    mediaId: Int,
+    initialSeason: Int? = null,
+    initialEpisode: Int? = null,
+    viewModel: DetailsViewModel = hiltViewModel(),
+    onNavigateToPlayer: (MediaType, Int, EpisodeIdentity?, String?, String?, String?, String?, Long?) -> Unit,
+    onNavigateToDetails: (MediaType, Int) -> Unit,
+    onNavigateToHome: () -> Unit = {},
+    onNavigateToSearch: () -> Unit = {},
+    onNavigateToWatchlist: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
+    onBack: () -> Unit
+) {
+    val isRtlLayoutDirection = androidx.compose.ui.platform.LocalLayoutDirection.current == androidx.compose.ui.unit.LayoutDirection.Rtl
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val playbackMediaId = if (mediaType == MediaType.TV) ShowMergeTable.canonicalId(mediaId) else mediaId
+    val usePosterCards = false
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val isMobile = LocalDeviceType.current.isTouchDevice()
+
+    // Start on buttons for both TV and movies (buttons are now shown for both)
+    var focusedSection by remember { mutableStateOf(FocusSection.BUTTONS) }
+    var buttonIndex by remember { mutableIntStateOf(0) }
+    var episodeIndex by rememberSaveable { mutableIntStateOf(0) }
+    var selectedEpisodeIdentity by rememberSaveable { mutableStateOf<EpisodeIdentity?>(null) }
+    var seasonIndex by rememberSaveable { mutableIntStateOf(0) }
+
+    // Sidebar state
+    var isSidebarFocused by remember { mutableStateOf(false) }
+    val maxSidebarIndex = topBarMaxIndex()
+    var sidebarFocusIndex by remember { mutableIntStateOf(topBarSelectedIndex(SidebarItem.HOME).coerceAtLeast(0)) }
+
+    // Stream Selector state
+    var showStreamSelector by remember { mutableStateOf(false) }
+    // Episode Context Menu state
+    var showEpisodeContextMenu by remember { mutableStateOf(false) }
+    var contextMenuEpisode by remember { mutableStateOf<Episode?>(null) }
+    var showSeasonContextMenu by remember { mutableStateOf(false) }
+    var contextMenuSeason by remember { mutableIntStateOf(1) }
+    var seasonSelectDownAtMs by remember { mutableLongStateOf(0L) }
+    var ignoreFirstResumeRefresh by remember(mediaType, mediaId, initialSeason, initialEpisode) { mutableStateOf(true) }
+
+    fun requestFastAutoPlay(
+        imdbId: String?,
+        displaySeason: Int?,
+        displayEpisode: Int?,
+        startPositionMs: Long?,
+        tmdbSeason: Int? = displaySeason,
+        tmdbEpisode: Int? = displayEpisode
+    ) {
+        showStreamSelector = false
+        val identity = uiState.episodes.firstOrNull {
+            it.seasonNumber == displaySeason && it.episodeNumber == displayEpisode
+        }?.identity ?: viewModel.resolveEpisodeIdentity(
+            displaySeason = displaySeason,
+            displayEpisode = displayEpisode,
+            tmdbSeason = tmdbSeason,
+            tmdbEpisode = tmdbEpisode
+        )
+        viewModel.markStreamPrefetchPlayPressed(imdbId, displaySeason, displayEpisode)
+        viewModel.recordPlayedEpisode(playbackMediaId, identity)
+        // Let the player resolve this identity. The current Details snapshot may still
+        // contain another episode's sources, and starting both resolvers duplicates requests.
+        onNavigateToPlayer(
+            mediaType,
+            playbackMediaId,
+            identity,
+            imdbId,
+            null,
+            null,
+            null,
+            startPositionMs
+        )
+    }
+
+    // Spoiler blur setting
+    var spoilerBlurEnabled by remember { mutableStateOf(false) }
+    LaunchedEffect(context) {
+        try {
+            val prefs = context.settingsDataStore.data.first()
+            val profileId = viewModel.profileId()
+            spoilerBlurEnabled = prefs[booleanPreferencesKey("profile_${profileId}_spoiler_blur")] ?: false
+        } catch (e: Exception) {
+            if (e is kotlinx.coroutines.CancellationException) throw e
+        }
+    }
+
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(mediaType, mediaId, initialSeason, initialEpisode) {
+        focusedSection = FocusSection.BUTTONS
+        buttonIndex = 0
+        episodeIndex = 0
+        selectedEpisodeIdentity = null
+        seasonIndex = 0
+        isSidebarFocused = false
+        viewModel.loadDetails(mediaType, mediaId, initialSeason, initialEpisode)
+    }
+
+    LaunchedEffect(uiState.episodes.size, uiState.totalSeasons) {
+        if (episodeIndex >= uiState.episodes.size) {
+            episodeIndex = (uiState.episodes.size - 1).coerceAtLeast(0)
+        }
+        if (seasonIndex >= uiState.totalSeasons) {
+            seasonIndex = (uiState.totalSeasons - 1).coerceAtLeast(0)
+        }
+    }
+
+    // Keep watched badges and continue target fresh when returning from player.
+    DisposableEffect(lifecycleOwner, mediaType, mediaId) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                if (ignoreFirstResumeRefresh) {
+                    ignoreFirstResumeRefresh = false
+                } else {
+                    viewModel.refreshAfterPlayerReturn()
+                }
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
+    // Personal build page timer: loadDetails() start -> first frame that shows the loaded item
+    // (logo or title, and the backdrop request). System.err survives release log stripping.
+    val pageItemShown = !uiState.isLoading && uiState.item?.id == mediaId
+    LaunchedEffect(pageItemShown, uiState.logoLoadFinished, mediaType, mediaId) {
+        if (!com.arflix.tv.BuildConfig.PERSONAL_BUILD) return@LaunchedEffect
+        if (!pageItemShown || !uiState.logoLoadFinished || viewModel.pageTimingReported) return@LaunchedEffect
+        if (viewModel.pageTimingElapsedMs() < 0L) return@LaunchedEffect
+        androidx.compose.runtime.withFrameNanos { }
+        if (viewModel.pageTimingReported) return@LaunchedEffect
+        viewModel.pageTimingReported = true
+        val type = if (mediaType == MediaType.TV) "tv" else "movie"
+        System.err.println(
+            "[PageTiming] details opened->drawn ms=${viewModel.pageTimingElapsedMs()} type=$type id=$mediaId"
+        )
+    }
+
+    // Place episode focus for whichever season is actually loaded. Keyed on currentSeason (which
+    // loadSeason updates atomically with episodes) so it also fixes the automatic season switch:
+    // moving to a different season focuses its first episode instead of leaving focus on the
+    // previously-selected episode index. For the initially-loaded season we keep the ViewModel's
+    // resume / first-unwatched target.
+    LaunchedEffect(
+        uiState.currentSeason,
+        uiState.episodes.map { it.identity },
+        uiState.initialSeasonIndex,
+        uiState.initialEpisodeIndex
+    ) {
+        if (uiState.episodes.isEmpty()) return@LaunchedEffect
+        episodeIndex = if (detailInitialEpisodeSeasonMatches(uiState.currentSeason, uiState.initialSeasonIndex, initialSeason)) {
+            uiState.initialEpisodeIndex.coerceIn(0, uiState.episodes.lastIndex)
+        } else {
+            0
+        }
+    }
+
+    // Sync seasonIndex with initialSeasonIndex from ViewModel
+    LaunchedEffect(uiState.initialSeasonIndex) {
+        if (uiState.initialSeasonIndex > 0) {
+            seasonIndex = uiState.initialSeasonIndex
+        }
+    }
+
+    // Reflect the episodes of the season the user is MOVING to, not only the one they click. The
+    // 100ms debounce means stepping quickly through seasons (1→4) cancels the intermediate loads
+    // and only fetches the season they settle on. loadSeason() ignores duplicate/in-flight requests
+    // and cancels a superseded load, so overlapping requests can't display a stale season. Episode
+    // focus is reset by the currentSeason-driven effect above once the new season's episodes arrive.
+    LaunchedEffect(seasonIndex) {
+        val requestedSeason = detailSeasonForAutomaticSelection(seasonIndex, uiState.currentSeason, initialSeason)
+        if (uiState.totalSeasons > 1 && uiState.currentSeason != requestedSeason) {
+            selectedEpisodeIdentity = null
+            delay(100)
+            viewModel.loadSeason(requestedSeason)
+        }
+    }
+
+    val maxActionButtonIndex = 4
+    val autoPlayNext by remember(context, mediaId) {
+        com.arflix.tv.util.PersonalPrefs.autoPlayNextShowFlow(context, playbackMediaId)
+    }.collectAsStateWithLifecycle(initialValue = false)
+    val autoPlayScope = rememberCoroutineScope()
+    val currentAutoPlayNext = rememberUpdatedState(autoPlayNext)
+    val currentUiState = rememberUpdatedState(uiState)
+    val currentEpisodeIndex = rememberUpdatedState(episodeIndex)
+    val currentSelectedEpisodeIdentity = rememberUpdatedState(selectedEpisodeIdentity)
+
+    val onButtonClickRemembered: (Int) -> Unit = remember(isMobile, mediaType, mediaId) {
+        { idx: Int ->
+            val state = currentUiState.value
+            val currentEpIdx = currentEpisodeIndex.value
+            val selectedEp = state.episodes.firstOrNull {
+                it.identity == currentSelectedEpisodeIdentity.value
+            }
+            if (com.arflix.tv.BuildConfig.PERSONAL_BUILD && idx == PERSONAL_AUTOPLAY_BUTTON_INDEX && mediaType == MediaType.TV) {
+                val enabled = !currentAutoPlayNext.value
+                autoPlayScope.launch { com.arflix.tv.util.PersonalPrefs.setAutoPlayNextShow(context, playbackMediaId, enabled) }
+            } else when (idx) {
+                0 -> { // Play
+                    val season = if (mediaType == MediaType.TV) {
+                        selectedEp?.seasonNumber
+                            ?: state.playSeason
+                            ?: state.episodes.getOrNull(currentEpIdx)?.seasonNumber
+                            ?: 1
+                    } else null
+                    val episode = if (mediaType == MediaType.TV) {
+                        selectedEp?.episodeNumber
+                            ?: state.playEpisode
+                            ?: state.episodes.getOrNull(currentEpIdx)?.episodeNumber
+                            ?: 1
+                    } else null
+                    val startPositionMs = if (
+                        selectedEp != null
+                    ) {
+                        state.episodePlaybackProgress[selectedEp.identity]?.positionMs
+                    } else if (mediaType == MediaType.TV &&
+                        season == state.playSeason &&
+                        episode == state.playEpisode
+                    ) {
+                        state.playPositionMs
+                    } else if (mediaType == MediaType.MOVIE) {
+                        state.playPositionMs
+                    } else null
+
+                    if (!state.autoPlaySingleSource) {
+                        // Autoplay OFF → open the source picker; never auto-play.
+                        showStreamSelector = true
+                        val identity = selectedEp?.identity ?: state.episodes.firstOrNull {
+                            it.seasonNumber == season && it.episodeNumber == episode
+                        }?.identity ?: viewModel.resolveEpisodeIdentity(
+                            displaySeason = season,
+                            displayEpisode = episode,
+                            tmdbSeason = state.playTmdbSeason ?: season,
+                            tmdbEpisode = state.playTmdbEpisode ?: episode,
+                        )
+                        viewModel.loadStreams(state.imdbId, identity)
+                    } else {
+                        // Autoplay ON → go straight to the player; PlayerScreen auto-picks.
+                        requestFastAutoPlay(
+                            state.imdbId, season, episode, startPositionMs,
+                            selectedEp?.tmdbSeasonNumber ?: state.playTmdbSeason ?: season,
+                            selectedEp?.tmdbEpisodeNumber ?: state.playTmdbEpisode ?: episode
+                        )
+                    }
+                }
+                3 -> viewModel.toggleWatched(
+                    selectedEp?.let { state.episodes.indexOf(it) }?.takeIf { it >= 0 } ?: currentEpIdx
+                )
+                4 -> viewModel.toggleWatchlist()
+            }
+        }
+    }
+
+    val onSeasonClickRemembered = remember {
+        { idx: Int ->
+            seasonIndex = idx
+            episodeIndex = 0
+            selectedEpisodeIdentity = null
+            viewModel.loadSeason(idx + 1)
+        }
+    }
+
+    val onSeasonLongClickRemembered = remember {
+        { idx: Int ->
+            contextMenuSeason = idx + 1
+            showSeasonContextMenu = true
+        }
+    }
+
+    val onEpisodeClickRemembered = remember(isMobile, mediaType, mediaId) {
+        { idx: Int ->
+            val state = currentUiState.value
+            val ep = state.episodes.getOrNull(idx)
+            if (ep != null) {
+                episodeIndex = idx
+                if (isMobile && currentSelectedEpisodeIdentity.value != ep.identity) {
+                    selectedEpisodeIdentity = ep.identity
+                } else if (isMobile || !state.autoPlaySingleSource) {
+                    selectedEpisodeIdentity = ep.identity
+                    showStreamSelector = true
+                    viewModel.loadStreams(state.imdbId, ep.identity)
+                } else {
+                    requestFastAutoPlay(
+                        state.imdbId, ep.seasonNumber, ep.episodeNumber,
+                        state.episodePlaybackProgress[ep.identity]?.positionMs,
+                        ep.tmdbSeasonNumber, ep.tmdbEpisodeNumber
+                    )
+                }
+            }
+        }
+    }
+
+
+
+
+    BackHandler(enabled = !showStreamSelector && !showEpisodeContextMenu && !showSeasonContextMenu) {
+        // Issue 2: leaving within the dwell window must not leak a scraping session.
+        viewModel.cancelStreamPrefetch()
+        onBack()
+    }
+
+    // Issue 2: leaving the composition by any path (nav pop, player launch,
+    // Similar-chain replace) releases the pending dwell / running prefetch.
+    DisposableEffect(mediaType, mediaId) {
+        onDispose { viewModel.cancelStreamPrefetch() }
+    }
+
+    // D-pad key handler — only used on TV (skipped on mobile/touch devices)
+    val dpadRepeatGate = rememberArvioDpadRepeatGate(
+        horizontalMinRepeatIntervalMs = 80L,
+        verticalMinRepeatIntervalMs = 112L
+    )
+    val keyModifier = if (isMobile) Modifier else Modifier.onPreviewKeyEvent { event ->
+                // Check if any modal is showing — let the modal handle all keys exclusively
+                if (showStreamSelector || showEpisodeContextMenu || showSeasonContextMenu) {
+                    return@onPreviewKeyEvent false
+                }
+                if (event.type == KeyEventType.KeyUp && isArvioDpadNavigationKey(event.key)) {
+                    dpadRepeatGate.reset()
+                }
+                if (
+                    event.type == KeyEventType.KeyDown &&
+                    isArvioDpadNavigationKey(event.key) &&
+                    dpadRepeatGate.shouldSkip(
+                        keyCode = event.nativeKeyEvent.keyCode,
+                        repeatCount = event.nativeKeyEvent.repeatCount,
+                        nowMs = SystemClock.elapsedRealtime()
+                    )
+                ) {
+                    return@onPreviewKeyEvent true
+                }
+                if (
+                    event.type == KeyEventType.KeyDown &&
+                    (event.key == Key.DirectionUp || event.key == Key.DirectionDown) &&
+                    event.nativeKeyEvent.repeatCount > 0
+                ) {
+                    return@onPreviewKeyEvent true
+                }
+                if (event.type == KeyEventType.KeyDown) {
+                    // One physical OK press performs one action, even while a Bluetooth remote
+                    // repeats its DOWN events. Season holds are timed from the original DOWN.
+                    if ((event.key == Key.Enter || event.key == Key.DirectionCenter) &&
+                        event.nativeKeyEvent.repeatCount > 0
+                    ) return@onPreviewKeyEvent true
+
+                    val isRtl = isRtlLayoutDirection
+                    val actualKey = event.key
+                    val logicalKey = if (isRtl) {
+                        when (actualKey) {
+                            Key.DirectionLeft -> Key.DirectionRight
+                            Key.DirectionRight -> Key.DirectionLeft
+                            else -> actualKey
+                        }
+                    } else actualKey
+
+                    // Move between Play, Watched and the show-only auto-play toggle.
+                    if (!isSidebarFocused &&
+                        focusedSection == FocusSection.BUTTONS &&
+                        (logicalKey == Key.DirectionLeft || logicalKey == Key.DirectionRight)
+                    ) {
+                        buttonIndex = personalNextButtonIndex(buttonIndex, moveRight = logicalKey == Key.DirectionRight, isShow = mediaType == MediaType.TV)
+                        return@onPreviewKeyEvent true
+                    }
+
+                    when (logicalKey) {
+                        Key.Back, Key.Escape -> {
+                            onBack()
+                            true
+                        }
+                        Key.DirectionLeft -> {
+                            if (isSidebarFocused) {
+                                if (sidebarFocusIndex > 0) {
+                                    sidebarFocusIndex = (sidebarFocusIndex - 1).coerceIn(0, maxSidebarIndex)
+                                }
+                                true
+                            } else {
+                                // At the leftmost item focus goes to the sidebar;
+                                // otherwise move within the section (rules in TvFocusCoordinator).
+                                val atLeftmost = isAtLeftmost(
+                                    focusedSection,
+                                    DetailsFocusIndices(buttonIndex, episodeIndex, seasonIndex)
+                                )
+                                if (atLeftmost) {
+                                    true
+                                } else {
+                                    handleLeft(focusedSection, buttonIndex, episodeIndex, seasonIndex,
+                                        { buttonIndex = it }, { episodeIndex = it }, { seasonIndex = it })
+                                }
+                            }
+                        }
+                        Key.DirectionRight -> {
+                            if (isSidebarFocused) {
+                                if (sidebarFocusIndex < maxSidebarIndex) {
+                                    sidebarFocusIndex = (sidebarFocusIndex + 1).coerceIn(0, maxSidebarIndex)
+                                }
+                                true
+                            } else {
+                                handleRight(focusedSection, buttonIndex, episodeIndex, seasonIndex,
+                                    maxActionButtonIndex, uiState.episodes.size, uiState.totalSeasons,
+                                    { buttonIndex = it }, { episodeIndex = it }, { seasonIndex = it })
+                            }
+                        }
+                        Key.DirectionUp -> {
+                            if (isSidebarFocused) {
+                                true
+                            } else {
+                                // Vertical section order (rules in TvFocusCoordinator):
+                                // BUTTONS -> SEASONS -> EPISODES
+                                val isTV = mediaType == MediaType.TV
+                                val hasEpisodes = uiState.episodes.isNotEmpty()
+                                val content = DetailsSectionContent(
+                                    episodeCount = uiState.episodes.size,
+                                    totalSeasons = uiState.totalSeasons,
+                                    maxButtonIndex = maxActionButtonIndex,
+                                    isTv = isTV,
+                                )
+                                if (focusedSection == FocusSection.BUTTONS) {
+                                    isSidebarFocused = true
+                                }
+                                focusedSection = moveUpSection(focusedSection, content)
+                                true
+                            }
+                        }
+                        Key.DirectionDown -> {
+                            if (isSidebarFocused) {
+                                isSidebarFocused = false
+                                true
+                            } else {
+                                // Vertical section order (rules in TvFocusCoordinator):
+                                // BUTTONS -> SEASONS -> EPISODES
+                                val isTV = mediaType == MediaType.TV
+                                val hasEpisodes = uiState.episodes.isNotEmpty()
+                                val content = DetailsSectionContent(
+                                    episodeCount = uiState.episodes.size,
+                                    totalSeasons = uiState.totalSeasons,
+                                    maxButtonIndex = maxActionButtonIndex,
+                                    isTv = isTV,
+                                )
+                                focusedSection = moveDownSection(focusedSection, content)
+                                true
+                            }
+                        }
+                        Key.Enter, Key.DirectionCenter -> {
+                            if (!isSidebarFocused && focusedSection == FocusSection.SEASONS) {
+                                if (seasonSelectDownAtMs == 0L) {
+                                    seasonSelectDownAtMs = SystemClock.elapsedRealtime()
+                                }
+                                return@onPreviewKeyEvent true
+                            }
+                            if (isSidebarFocused) {
+                                when (topBarFocusedItem(sidebarFocusIndex)) {
+                                    SidebarItem.SEARCH -> onNavigateToSearch()
+                                    SidebarItem.HOME -> onNavigateToHome()
+                                    SidebarItem.WATCHLIST -> onNavigateToWatchlist()
+                                    SidebarItem.SETTINGS -> onNavigateToSettings()
+                                    null -> Unit
+                                }
+
+                                return@onPreviewKeyEvent true
+                            }
+                            when (focusedSection) {
+                                FocusSection.BUTTONS -> {
+                                    onButtonClickRemembered(buttonIndex)
+                                }
+                                FocusSection.EPISODES -> {
+                                    onEpisodeClickRemembered(episodeIndex)
+                                }
+                                FocusSection.SEASONS -> {
+                                    episodeIndex = 0
+                                    selectedEpisodeIdentity = null
+                                    viewModel.loadSeason(seasonIndex + 1)
+                                }
+                            }
+                            true
+                        }
+                        // Long press or menu key for context menu
+                        Key.Menu -> {
+                            if (focusedSection == FocusSection.EPISODES) {
+                                contextMenuEpisode = uiState.episodes.getOrNull(episodeIndex)
+                                showEpisodeContextMenu = true
+                            } else if (focusedSection == FocusSection.SEASONS) {
+                                contextMenuSeason = seasonIndex + 1
+                                showSeasonContextMenu = true
+                            }
+                            true
+                        }
+                        else -> false
+                    }
+                } else if (event.type == KeyEventType.KeyUp && (event.key == Key.Enter || event.key == Key.DirectionCenter)) {
+                    if (!isSidebarFocused && focusedSection == FocusSection.SEASONS && seasonSelectDownAtMs > 0L) {
+                        val heldMs = SystemClock.elapsedRealtime() - seasonSelectDownAtMs
+                        seasonSelectDownAtMs = 0L
+                        if (heldMs >= 900L) {
+                            contextMenuSeason = seasonIndex + 1
+                            showSeasonContextMenu = true
+                        } else {
+                            episodeIndex = 0
+                            viewModel.loadSeason(seasonIndex + 1)
+                        }
+                        true
+                    } else {
+                        seasonSelectDownAtMs = 0L
+                        false
+                    }
+                } else false
+            }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(appBackgroundDark())
+            .then(keyModifier)
+            .focusRequester(focusRequester)
+            .focusable()
+    ) {
+        // Main content - full screen with sidebar overlay (same as HomeScreen)
+        Crossfade(
+            targetState = uiState.isLoading || uiState.item == null,
+            animationSpec = tween(durationMillis = 280, easing = FastOutSlowInEasing),
+            label = "details_loading_crossfade"
+        ) { loading ->
+            if (loading) {
+                // Use skeleton loader for better UX
+                SkeletonDetailsPage(
+                    isTV = mediaType == MediaType.TV,
+                    isMobile = isMobile,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                uiState.item?.let { item ->
+                    val selectedEpisode = uiState.episodes.firstOrNull {
+                        it.identity == selectedEpisodeIdentity
+                    }
+                    val selectedProgress = selectedEpisode?.let {
+                        uiState.episodePlaybackProgress[it.identity]
+                    }
+                    val effectivePlayLabel = selectedEpisode?.let { episode ->
+                        context.getString(
+                            if (selectedProgress != null) {
+                                R.string.continue_season_episode
+                            } else {
+                                R.string.play_season_episode
+                            },
+                            episode.seasonNumber,
+                            episode.episodeNumber
+                        )
+                    } ?: uiState.playLabel
+                    DetailsContent(
+                        item = item,
+                        logoUrl = uiState.logoUrl,
+                        episodes = uiState.episodes,
+                        totalSeasons = uiState.totalSeasons,
+                        currentSeason = uiState.currentSeason,
+                        // Personal build: none of the rows/buttons below Play + Watched exist.
+                        listButtonIndex = -1,
+                        focusedSection = focusedSection,
+                        buttonIndex = buttonIndex,
+                        episodeIndex = episodeIndex,
+                        seasonIndex = seasonIndex,
+                        isInWatchlist = uiState.isInWatchlist,
+                        autoPlayNext = autoPlayNext,
+                        genres = uiState.genres,
+                        seasonProgress = uiState.seasonProgress,
+                        episodePlaybackProgress = uiState.episodePlaybackProgress,
+                        selectedEpisodeIdentity = selectedEpisodeIdentity,
+                        playLabel = effectivePlayLabel,
+                        contentHasFocus = !isSidebarFocused,
+                        usePosterCards = usePosterCards,
+                        isMobile = isMobile,
+                        spoilerBlurEnabled = spoilerBlurEnabled,
+                        isLoading = uiState.isLoading,
+                        isSeasonLoading = uiState.isSeasonLoading,
+                        onBack = onBack,
+                        onButtonClick = onButtonClickRemembered,
+                        onSeasonClick = onSeasonClickRemembered,
+                        onSeasonLongClick = onSeasonLongClickRemembered,
+                        onEpisodeClick = onEpisodeClickRemembered,
+                    )
+                }
+            }
+        }
+
+        if (!LocalDeviceType.current.isTouchDevice()) {
+            AppTopBar(
+                selectedItem = SidebarItem.HOME,
+                isFocused = isSidebarFocused,
+                focusedIndex = sidebarFocusIndex
+            )
+        }
+
+        // Stream Selector Modal
+        StreamSelector(
+            isVisible = showStreamSelector,
+            streams = uiState.streams,
+            selectedStream = null,
+            recentSource = uiState.recentSource,
+            isLoading = uiState.isLoadingStreams,
+            hasStreamingAddons = uiState.hasStreamingAddons,
+            addonOrderedIds = uiState.addonOrderedIds,
+            completedAddons = uiState.completedAddons,
+            totalAddons = uiState.totalAddons,
+            streamSearchStartTime = uiState.streamSearchStartTime,
+            onFocusedStream = { stream ->
+                viewModel.prewarmStreamsAround(stream, uiState.streams)
+            },
+            onSelect = { stream ->
+                if (isPendingDebridStream(stream)) {
+                    viewModel.showToast(
+                        context.getString(R.string.details_toast_debrid_downloading),
+                        ToastType.ERROR
+                    )
+                    return@StreamSelector
+                }
+                showStreamSelector = false
+                val identity = uiState.streamsEpisodeIdentity
+                    ?: uiState.episodes.firstOrNull { it.identity == selectedEpisodeIdentity }?.identity
+                    ?: uiState.episodes.getOrNull(episodeIndex)?.identity
+                val startPositionMs = if (mediaType == MediaType.MOVIE) {
+                    uiState.playPositionMs
+                } else {
+                    identity?.let { uiState.episodePlaybackProgress[it]?.positionMs }
+                        ?: if (
+                            identity?.displaySeason == uiState.playSeason &&
+                            identity?.displayEpisode == uiState.playEpisode
+                        ) uiState.playPositionMs else null
+                }
+                viewModel.recordPlayedEpisode(playbackMediaId, identity)
+                onNavigateToPlayer(
+                    mediaType, playbackMediaId,
+                    identity,
+                    uiState.imdbId,
+                    stream.url?.takeIf { it.isNotBlank() },
+                    stream.addonId.takeIf { it.isNotBlank() },
+                    stream.source.takeIf { it.isNotBlank() },
+                    startPositionMs
+                )
+            },
+            onClose = {
+                showStreamSelector = false
+                try { focusRequester.requestFocus() } catch (_: Exception) {}
+            }
+        )
+
+        // Episode Context Menu
+        contextMenuEpisode?.let { episode ->
+            EpisodeContextMenu(
+                isVisible = showEpisodeContextMenu,
+                episodeName = episode.name,
+                seasonEpisode = stringResource(R.string.details_episode_code_short, episode.seasonNumber, episode.episodeNumber),
+                isWatched = episode.isWatched,
+                onPlay = {
+                    showEpisodeContextMenu = false
+                    requestFastAutoPlay(
+                        uiState.imdbId, episode.seasonNumber, episode.episodeNumber,
+                        uiState.episodePlaybackProgress[episode.identity]?.positionMs,
+                        episode.tmdbSeasonNumber, episode.tmdbEpisodeNumber
+                    )
+                },
+                onSelectSource = {
+                    showEpisodeContextMenu = false
+                    showStreamSelector = true
+                    viewModel.loadStreams(uiState.imdbId, episode.identity)
+                },
+                onToggleWatched = {
+                    viewModel.markEpisodeWatched(
+                        episode.seasonNumber,
+                        episode.episodeNumber,
+                        !episode.isWatched
+                    )
+                },
+                onDismiss = {
+                    showEpisodeContextMenu = false
+                    contextMenuEpisode = null
+                }
+            )
+        }
+
+        SeasonContextMenu(
+            isVisible = showSeasonContextMenu,
+            seasonNumber = contextMenuSeason,
+            onMarkSeasonWatched = {
+                viewModel.markSeasonWatched(contextMenuSeason)
+            },
+            onMarkSeasonUnwatched = {
+                viewModel.markSeasonUnwatched(contextMenuSeason)
+            },
+            onDismiss = {
+                showSeasonContextMenu = false
+            }
+        )
+
+
+        // Toast notifications, above the list picker whose results they report
+        uiState.toastMessage?.let { message ->
+            Box(modifier = Modifier.fillMaxSize().zIndex(70f)) {
+                Toast(
+                    message = message,
+                    type = when (uiState.toastType) {
+                        com.arflix.tv.ui.screens.details.ToastType.SUCCESS -> com.arflix.tv.ui.components.ToastType.SUCCESS
+                        com.arflix.tv.ui.screens.details.ToastType.ERROR -> com.arflix.tv.ui.components.ToastType.ERROR
+                        com.arflix.tv.ui.screens.details.ToastType.INFO -> com.arflix.tv.ui.components.ToastType.INFO
+                    },
+                    isVisible = true,
+                    durationMs = if (uiState.toastType == com.arflix.tv.ui.screens.details.ToastType.ERROR) 8000 else 4000,
+                    onDismiss = { viewModel.dismissToast() }
+                )
+            }
+        }
+    }
+}
+
+// Focus navigation rules live in ui.focus.TvFocusCoordinator (Issue 5 Layer 1);
+// DetailsScreen keeps only the state vars and applies the outcomes below.
+
+
+@Composable
+private fun DetailsContent(
+    item: MediaItem,
+    logoUrl: String?,
+    episodes: List<Episode>,
+    totalSeasons: Int,
+    currentSeason: Int,
+    listButtonIndex: Int = -1,
+    focusedSection: FocusSection,
+    buttonIndex: Int,
+    episodeIndex: Int,
+    seasonIndex: Int,
+    isInWatchlist: Boolean,
+    autoPlayNext: Boolean = false,
+    genres: List<String> = emptyList(),
+    seasonProgress: Map<Int, Pair<Int, Int>> = emptyMap(),
+    episodePlaybackProgress: Map<EpisodeIdentity, EpisodePlaybackProgress> = emptyMap(),
+    selectedEpisodeIdentity: EpisodeIdentity? = null,
+    playLabel: String? = null,
+    contentHasFocus: Boolean = true,
+    usePosterCards: Boolean = false,
+    isMobile: Boolean = false,
+    isLoading: Boolean = false,
+    isSeasonLoading: Boolean = false,
+    // Persistent back callback used by the phone-layout back button overlay
+    // (issue #43). No-op by default so tablet/TV callers don't need to pass it.
+    onBack: () -> Unit = {},
+    onButtonClick: (Int) -> Unit = {},
+    onSeasonClick: (Int) -> Unit = {},
+    onSeasonLongClick: ((Int) -> Unit)? = null,
+    onEpisodeClick: (Int) -> Unit = {},
+    spoilerBlurEnabled: Boolean = false,
+) {
+    val context = LocalContext.current
+    val metadataLogoImageLoader = context.imageLoader
+    val focusSectionForUi = if (contentHasFocus) focusedSection else null
+    // === PREMIUM LAYERED TEXT SHADOWS ===
+    val textShadow = Shadow(
+        color = Color.Black.copy(alpha = 0.9f),
+        offset = Offset(0f, 2f),
+        blurRadius = 8f  // Soft spread shadow for better readability
+    )
+
+    // ===================== MOBILE LAYOUT =====================
+    if (isMobile) {
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val navigationBottomPadding = WindowInsets.navigationBars
+            .asPaddingValues()
+            .calculateBottomPadding()
+        val backdropHeight = resolveDetailsBackdropHeightDp(
+            availableWidthDp = maxWidth.value,
+            availableHeightDp = (maxHeight - navigationBottomPadding).coerceAtLeast(1.dp).value,
+        ).dp
+        val backdropWidth = maxWidth
+        val mobileScrollState = rememberScrollState()
+        val density = LocalDensity.current
+        var stickyThreshold by remember { mutableStateOf(-1f) }
+        val topBarAlpha by remember {
+            derivedStateOf {
+                if (stickyThreshold >= 0f && mobileScrollState.value > stickyThreshold) {
+                    val overscroll = mobileScrollState.value - stickyThreshold
+                    val maxOverscroll = 150f
+                    (overscroll / maxOverscroll).coerceIn(0f, 1f)
+                } else {
+                    0f
+                }
+            }
+        }
+
+        val cachedSeasonEpisodes = remember { mutableStateMapOf<Int, List<Episode>>() }
+        LaunchedEffect(currentSeason, episodes) {
+            if (episodes.isNotEmpty() && episodes.all { it.seasonNumber == currentSeason }) {
+                cachedSeasonEpisodes[currentSeason] = episodes
+            }
+        }
+
+        val tvSeriesLabel = stringResource(R.string.details_label_tv_series)
+        val movieLabel = stringResource(R.string.movie)
+        val genreText = genres.take(2).map(::formatGenreName).joinToString(" / ").ifBlank {
+            if (item.mediaType == MediaType.TV) tvSeriesLabel else movieLabel
+        }
+        val displayDate = item.year.takeIf { it.isNotBlank() }
+            ?: item.releaseDate?.trim()?.takeIf { it.isNotEmpty() }?.let { date ->
+                DetailsScreenRegexes.YEAR_REGEX.find(date)?.value ?: date
+            }
+            ?: ""
+        val hasDuration = item.duration.isNotEmpty() && item.duration != "0m"
+        val buttonWatched = if (item.mediaType == MediaType.TV) {
+            episodes.getOrNull(episodeIndex)?.isWatched ?: item.isWatched
+        } else {
+            item.isWatched
+        }
+
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(mobileScrollState)
+            ) {
+                // --- Backdrop with gradient ---
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(backdropHeight)
+                        .zIndex(10f)
+                ) {
+                    val backdropRequest = remember(item.backdrop, item.image, context, backdropWidth, backdropHeight, density) {
+                        val url = item.backdrop ?: item.image
+                        if (url.isNullOrBlank()) null else {
+                            ImageRequest.Builder(context)
+                                .data(
+                                    TmdbImageSizing.forSlot(
+                                        url,
+                                        with(density) { backdropWidth.roundToPx() },
+                                        with(density) { backdropHeight.roundToPx() },
+                                        TmdbImageSizing.Kind.BACKDROP
+                                    )
+                                )
+                                .crossfade(250)
+                                .allowHardware(true)
+                                .build()
+                        }
+                    }
+                    if (backdropRequest != null) {
+                        AsyncImage(
+                            model = backdropRequest,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    // Strong bottom gradient
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colorStops = arrayOf(
+                                        0.0f to Color.Transparent,
+                                        0.55f to Color.Transparent,
+                                        0.8f to Color.Black.copy(alpha = 0.84f),
+                                        1.0f to Color.Black
+                                    )
+                                )
+                            )
+                    )
+
+                    if (topBarAlpha > 0f) {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .fillMaxWidth()
+                                .graphicsLayer {
+                                    alpha = topBarAlpha
+                                    translationY = mobileScrollState.value.toFloat()
+                                }
+                                .background(Color.Black.copy(alpha = 0.85f))
+                        ) {
+                            Spacer(modifier = Modifier.statusBarsPadding().height(64.dp))
+                        }
+                    }
+
+                    // Title and metadata over backdrop bottom
+                    Column(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .padding(start = 24.dp, end = 24.dp, bottom = 18.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        val statusBarsTop = WindowInsets.statusBars.getTop(density)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .zIndex(11f)
+                                .height(86.dp)
+                                .onGloballyPositioned { coords ->
+                                    val currentInitialY = coords.positionInWindow().y + mobileScrollState.value
+                                    val pinnedY = statusBarsTop - with(density) { 12.dp.toPx() }
+                                    val calculatedThreshold = currentInitialY - pinnedY
+
+                                    // Update if uninitialized, or if the layout shifts significantly (e.g. metadata loaded)
+                                    // The > 10f check prevents infinite recomposition loops and ignores 1-2px scroll jitter.
+                                    if (stickyThreshold < 0f || kotlin.math.abs(calculatedThreshold - stickyThreshold) > 10f) {
+                                        stickyThreshold = calculatedThreshold
+                                    }
+                                }
+                                .graphicsLayer {
+                                    if (stickyThreshold >= 0f && mobileScrollState.value > stickyThreshold) {
+                                        val overscroll = mobileScrollState.value - stickyThreshold
+                                        translationY = overscroll
+
+                                        // Smooth scale down to feel like a header
+                                        val maxOverscroll = 200f
+                                        val progress = (overscroll / maxOverscroll).coerceIn(0f, 1f)
+                                        val scale = 1f - (0.28f * progress)
+                                        scaleX = scale
+                                        scaleY = scale
+                                    }
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Crossfade(
+                                targetState = logoUrl,
+                                animationSpec = tween(300, easing = FastOutSlowInEasing),
+                                label = "mobile_logo_crossfade"
+                            ) { currentLogoUrl ->
+                                if (!currentLogoUrl.isNullOrBlank()) {
+                                    AsyncImage(
+                                        model = currentLogoUrl,
+                                        contentDescription = item.title,
+                                        contentScale = ContentScale.Fit,
+                                        alignment = Alignment.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth(0.78f)
+                                            .height(86.dp)
+                                    )
+                                } else if (!isLoading) {
+                                    Text(
+                                        text = item.title,
+                                        style = ArflixTypography.heroTitle.copy(
+                                            fontSize = 28.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            shadow = textShadow
+                                        ),
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center,
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.fillMaxWidth(0.85f)
+                                    )
+                                } else {
+                                    Spacer(modifier = Modifier.fillMaxWidth(0.78f).height(86.dp))
+                                }
+                            }
+                        }
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateContentSize(
+                                    animationSpec = spring(
+                                        dampingRatio = Spring.DampingRatioNoBouncy,
+                                        stiffness = Spring.StiffnessMediumLow
+                                    )
+                                ),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .horizontalScroll(rememberScrollState())
+                            ) {
+                                if (displayDate.isNotEmpty()) {
+                                    Text(
+                                        text = displayDate,
+                                        style = ArflixTypography.caption.copy(
+                                            fontSize = 13.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            shadow = textShadow
+                                        ),
+                                        color = Color.White.copy(alpha = 0.78f),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                                if (hasDuration) {
+                                    if (displayDate.isNotEmpty()) {
+                                        MobileMetadataSeparator()
+                                    }
+                                    Text(
+                                        text = item.duration,
+                                        style = ArflixTypography.caption.copy(
+                                            fontSize = 13.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            shadow = textShadow
+                                        ),
+                                        color = Color.White.copy(alpha = 0.78f),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                                item.contentRating?.let { contentRating ->
+                                    if (displayDate.isNotEmpty() || hasDuration) {
+                                        MobileMetadataSeparator()
+                                    }
+                                    Text(
+                                        text = contentRating,
+                                        style = ArflixTypography.caption.copy(
+                                            fontSize = 13.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            shadow = textShadow
+                                        ),
+                                        color = Color.White.copy(alpha = 0.78f),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            }
+
+
+                            if (genreText.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(6.dp))
+                                Text(
+                                    text = genreText,
+                                    style = ArflixTypography.caption.copy(
+                                        fontSize = 13.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        shadow = textShadow
+                                    ),
+                                    color = Color.White.copy(alpha = 0.74f),
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    modifier = Modifier.fillMaxWidth(0.9f)
+                                )
+                            }
+                        }
+                    }
+
+                }
+
+                // --- Content on black background ---
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Black)
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Primary mobile actions
+                    val playButtonLabel = if (!playLabel.isNullOrBlank()) playLabel else stringResource(R.string.play)
+                    MobileActionButton(
+                        icon = Icons.Default.PlayArrow,
+                        text = playButtonLabel,
+                        isPrimary = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(58.dp),
+                        onClick = { onButtonClick(0) }
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        MobileIconActionButton(
+                            icon = if (buttonWatched) Icons.Default.Check else Icons.Default.Visibility,
+                            contentDescription = if (buttonWatched) stringResource(R.string.watched) else stringResource(R.string.details_btn_mark_watched),
+                            isActive = buttonWatched,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(54.dp),
+                            onClick = { onButtonClick(3) }
+                        )
+                        if (com.arflix.tv.BuildConfig.PERSONAL_BUILD && item.mediaType == MediaType.TV) MobileIconActionButton(
+                            icon = Icons.Default.SkipNext,
+                            contentDescription = stringResource(R.string.autoplay_next_episode),
+                            isActive = autoPlayNext,
+                            modifier = Modifier.weight(1f).height(54.dp),
+                            onClick = { onButtonClick(PERSONAL_AUTOPLAY_BUTTON_INDEX) }
+                        )
+                        MobileIconActionButton(
+                            icon = if (isInWatchlist) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                            contentDescription = if (isInWatchlist) stringResource(R.string.details_in_watchlist) else stringResource(R.string.add_to_watchlist),
+                            isActive = isInWatchlist,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(54.dp),
+                            onClick = { onButtonClick(4) }
+                        )
+                        if (listButtonIndex >= 0) {
+                            MobileIconActionButton(
+                                icon = Icons.AutoMirrored.Filled.PlaylistAdd,
+                                contentDescription = stringResource(R.string.list_add_to),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(54.dp),
+                                onClick = { onButtonClick(listButtonIndex) }
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    // Description
+                    Text(
+                        text = item.overview,
+                        style = ArflixTypography.body.copy(
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp,
+                            fontWeight = FontWeight.Normal
+                        ),
+                        color = Color.White.copy(alpha = 0.88f),
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                    // --- TV Show: Season selector & Episodes ---
+                    if (item.mediaType == MediaType.TV && (episodes.isNotEmpty() || isSeasonLoading)) {
+                        if (totalSeasons > 1) {
+                            Spacer(modifier = Modifier.height(20.dp))
+                            Text(
+                                text = stringResource(R.string.seasons),
+                                style = ArvioSkin.typography.sectionTitle.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold),
+                                color = Color.White.copy(alpha = 0.9f)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .horizontalScroll(rememberScrollState()),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                (1..totalSeasons).forEachIndexed { index, season ->
+                                    val progress = seasonProgress[season]
+                                    val currentSeasonProgress = if (season == currentSeason && episodes.isNotEmpty()) {
+                                        Pair(episodes.count { it.isWatched }, episodes.size)
+                                    } else null
+                                    val seasonClick = remember(index, onSeasonClick) { { onSeasonClick(index) } }
+                                    val seasonLongClick = remember(index, onSeasonLongClick) {
+                                        onSeasonLongClick?.let { callback -> { callback(index) } }
+                                    }
+                                    SeasonButton(
+                                        season = season,
+                                        isSelected = season == currentSeason,
+                                        isFocused = false,
+                                        watchedCount = currentSeasonProgress?.first ?: progress?.first ?: 0,
+                                        totalCount = currentSeasonProgress?.second ?: progress?.second ?: 0,
+                                        onClick = seasonClick,
+                                        onLongClick = seasonLongClick
+                                    )
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = stringResource(R.string.episodes),
+                            style = ArvioSkin.typography.sectionTitle.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold),
+                            color = Color.White.copy(alpha = 0.9f)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
+
+                // Episode sliding viewport container (Apple TV-style horizontal content transition)
+                if (item.mediaType == MediaType.TV && (episodes.isNotEmpty() || isSeasonLoading)) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clipToBounds()
+                    ) {
+                        val appleEase = CubicBezierEasing(0.25f, 0.1f, 0.25f, 1.0f)
+                        AnimatedContent(
+                            targetState = currentSeason,
+                            transitionSpec = {
+                                val animDuration = 340
+                                val slideSpec = androidx.compose.animation.core.tween<androidx.compose.ui.unit.IntOffset>(
+                                    durationMillis = animDuration,
+                                    easing = appleEase
+                                )
+                                val fadeSpec = androidx.compose.animation.core.tween<Float>(
+                                    durationMillis = animDuration,
+                                    easing = appleEase
+                                )
+                                if (targetState > initialState) {
+                                    // Moving forward (e.g. S1 -> S2):
+                                    // Old content exits completely to the left, New content enters from the right
+                                    (slideInHorizontally(animationSpec = slideSpec) { fullWidth -> fullWidth } +
+                                     fadeIn(animationSpec = fadeSpec)) togetherWith
+                                    (slideOutHorizontally(animationSpec = slideSpec) { fullWidth -> -fullWidth } +
+                                     fadeOut(animationSpec = fadeSpec))
+                                } else {
+                                    // Moving backward (e.g. S2 -> S1):
+                                    // Old content exits completely to the right, New content enters from the left
+                                    (slideInHorizontally(animationSpec = slideSpec) { fullWidth -> -fullWidth } +
+                                     fadeIn(animationSpec = fadeSpec)) togetherWith
+                                    (slideOutHorizontally(animationSpec = slideSpec) { fullWidth -> fullWidth } +
+                                     fadeOut(animationSpec = fadeSpec))
+                                }
+                            },
+                            label = "mobile_season_viewport_anim"
+                        ) { season ->
+                            val seasonEpisodes = cachedSeasonEpisodes[season]
+                                ?: episodes.takeIf { it.isNotEmpty() && it.all { ep -> ep.seasonNumber == season } }
+                                ?: emptyList()
+                            val isCurrentSeasonLoading = (isSeasonLoading && season == currentSeason) || seasonEpisodes.isEmpty()
+
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                if (isCurrentSeasonLoading || seasonEpisodes.isEmpty()) {
+                                    LazyRow(
+                                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+                                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                    ) {
+                                        items(4) {
+                                            SkeletonEpisodeCard()
+                                        }
+                                    }
+                                } else {
+                                    LazyRow(
+                                        modifier = Modifier.arvioDpadFocusGroup(),
+                                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+                                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                    ) {
+                                        standardItemsIndexed(
+                                            seasonEpisodes,
+                                            key = { index, ep -> "mob_ep_${ep.seasonNumber}_${ep.episodeNumber}_$index" },
+                                            contentType = { _, _ -> "episode" }
+                                        ) { index, episode ->
+                                            EpisodeCard(
+                                                episode = episode,
+                                                playbackProgress = episodePlaybackProgress[episode.identity],
+                                                isSelected = episode.identity == selectedEpisodeIdentity,
+                                                isFocused = false,
+                                                spoilerBlurEnabled = spoilerBlurEnabled,
+                                                onClick = { onEpisodeClick(index) }
+                                            )
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+
+
+                // Bottom spacing
+                Spacer(modifier = Modifier.height(32.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + LocalBottomBarInset.current))
+            }
+
+            // Persistent back button for phone users (hidden on tablet/TV).
+            // Sits on top of the scrolling Column so it's always reachable even
+            // when the system nav bar auto-hides. Issue #43.
+            com.arflix.tv.ui.components.MobileBackButton(
+                onBack = onBack,
+                modifier = Modifier.align(Alignment.TopStart).statusBarsPadding()
+            )
+        }
+        }
+        return
+    }
+    // ===================== END MOBILE LAYOUT =====================
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Full-screen hero background, sized like the Home hero so both share one file.
+        val heroConfiguration = LocalConfiguration.current
+        val heroDensity = LocalDensity.current
+        val heroBackdropUrl = remember(item.backdrop, item.image, heroConfiguration, heroDensity) {
+            // Personal build: a 1280-wide TMDB backdrop instead of "original" (much smaller file).
+            if (com.arflix.tv.BuildConfig.PERSONAL_BUILD) return@remember personalDetailsBackdropUrl(item.backdrop ?: item.image)
+            TmdbImageSizing.forSlot(
+                item.backdrop ?: item.image,
+                with(heroDensity) { heroConfiguration.screenWidthDp.dp.roundToPx() },
+                with(heroDensity) { heroConfiguration.screenHeightDp.dp.roundToPx() },
+                TmdbImageSizing.Kind.BACKDROP
+            )
+        }
+        AsyncImage(
+            model = heroBackdropUrl,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        // === PREMIUM MULTI-LAYER SCRIM SYSTEM ===
+
+        // Layer 1: Strong left gradient for hero text area (Netflix-style)
+        // Uses colorStops with percentages to work on any resolution.
+        // It darkens the start edge, where the hero text is: the right one in right-to-left languages.
+        val isRtlScrim = androidx.compose.ui.platform.LocalLayoutDirection.current ==
+            androidx.compose.ui.unit.LayoutDirection.Rtl
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colorStops = arrayOf(
+                            0.0f to Color.Black.copy(alpha = 0.85f),
+                            0.15f to Color.Black.copy(alpha = 0.75f),
+                            0.25f to Color.Black.copy(alpha = 0.55f),
+                            0.35f to Color.Black.copy(alpha = 0.35f),
+                            0.45f to Color.Black.copy(alpha = 0.15f),
+                            0.55f to Color.Transparent,
+                            1.0f to Color.Transparent
+                        ),
+                        startX = if (isRtlScrim) Float.POSITIVE_INFINITY else 0f,
+                        endX = if (isRtlScrim) 0f else Float.POSITIVE_INFINITY
+                    )
+                )
+        )
+
+        // Layer 2: Top vignette for clock/status area
+        // Uses colorStops with percentages to work on any resolution
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colorStops = arrayOf(
+                            0.0f to Color.Black.copy(alpha = 0.5f),
+                            0.05f to Color.Black.copy(alpha = 0.25f),
+                            0.12f to Color.Transparent,
+                            1.0f to Color.Transparent
+                        )
+                    )
+                )
+        )
+
+        // Layer 3: Bottom floor-fade (starts low, darker at bottom)
+        // Uses colorStops with percentages to work on any resolution
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colorStops = arrayOf(
+                            0.0f to Color.Transparent,
+                            0.85f to Color.Transparent,
+                            0.92f to Color.Black.copy(alpha = 0.5f),
+                            1.0f to Color.Black.copy(alpha = 0.85f)
+                        )
+                    )
+                )
+        )
+
+        // Layer 4 removed for performance - radial gradients are expensive on TV
+
+        // Unified hero metadata and action buttons positioned safely below the top bar
+        val heroStartPadding = 36.dp
+        val heroEndPadding = 400.dp
+        val configuration = LocalConfiguration.current
+        val isCompactHeight = configuration.screenHeightDp < 720
+        val hasEpisodeRail = item.mediaType == MediaType.TV && (episodes.isNotEmpty() || isSeasonLoading)
+        val compactEpisodeHero = isCompactHeight && hasEpisodeRail
+        val heroTopPadding = if (compactEpisodeHero) AppTopBarHeight else
+            AppTopBarContentTopInset + if (isCompactHeight) 10.dp else 16.dp
+
+        val hasPosterDetailRails = false
+        // Seasons and episodes share the hero composition; only deeper rails need more space.
+        val isBrowsingRails = focusSectionForUi != null && focusSectionForUi !in setOf(
+            FocusSection.BUTTONS, FocusSection.SEASONS, FocusSection.EPISODES
+        )
+
+        val shiftAmount = if (isCompactHeight) 135.dp else 175.dp
+        val railExpansionProgress by animateFloatAsState(
+            targetValue = if (isBrowsingRails) 1f else 0f,
+            animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
+            label = "details_rail_expansion"
+        )
+        val heroAlpha = 1f - 0.65f * railExpansionProgress
+
+        val minRestingRowHeight = if (hasEpisodeRail) 240.dp else if (hasPosterDetailRails) 226.dp else 210.dp
+        val maxRestingRowHeight = if (hasEpisodeRail) 260.dp else if (hasPosterDetailRails) 246.dp else 226.dp
+        val restingRowHeight = if (isCompactHeight) {
+            minRestingRowHeight
+        } else {
+            (configuration.screenHeightDp * 0.38f).dp.coerceIn(
+                minimumValue = minRestingRowHeight,
+                maximumValue = maxRestingRowHeight
+            )
+        }
+        val expandedRowHeight = restingRowHeight + shiftAmount
+
+        val contentRowBottomPadding = 0.dp
+
+        DetailsTvHeroLayout(
+            restingRowsHeight = restingRowHeight,
+            expandedRowsHeight = expandedRowHeight,
+            expansionProgress = railExpansionProgress,
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            Column(
+                modifier = Modifier
+                    .graphicsLayer {
+                        alpha = heroAlpha
+                    }
+                    .padding(
+                        top = heroTopPadding,
+                        start = heroStartPadding,
+                        end = heroEndPadding
+                    )
+            ) {
+                val showInCinema = remember(item.releaseDate, item.mediaType) {
+                    isInCinema(item)
+                }
+                val inCinemaColor = Color(0xFF8AD5FF)
+                val logoHeight = if (compactEpisodeHero) 48.dp else if (isCompactHeight) 64.dp else 72.dp
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Box(
+                        modifier = Modifier.height(logoHeight),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Crossfade(
+                            targetState = logoUrl,
+                            animationSpec = tween(300, easing = FastOutSlowInEasing),
+                            label = "tv_logo_crossfade"
+                        ) { currentLogoUrl ->
+                            if (!currentLogoUrl.isNullOrBlank()) {
+                                AsyncImage(
+                                    model = currentLogoUrl,
+                                    contentDescription = item.title,
+                                    contentScale = ContentScale.Fit,
+                                    alignment = Alignment.CenterStart,
+                                    modifier = Modifier
+                                        .height(logoHeight)
+                                        .width(320.dp)
+                                )
+                            } else {
+                                Text(
+                                    text = item.title,
+                                    style = ArflixTypography.heroTitle.copy(
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    color = Color.White,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        }
+                    }
+
+                    if (showInCinema && !com.arflix.tv.BuildConfig.PERSONAL_BUILD) {
+                        Box(
+                            modifier = Modifier
+                                .background(inCinemaColor, RoundedCornerShape(6.dp))
+                                .padding(horizontal = 10.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.in_cinema),
+                                style = ArflixTypography.caption.copy(
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                color = Color.Black
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(if (compactEpisodeHero) 6.dp else 8.dp))
+
+                val tvSeriesLabel = stringResource(R.string.details_label_tv_series)
+                val movieLabel = stringResource(R.string.movie)
+                val genreText = genres.take(2).map(::formatGenreName).joinToString(" / ").ifEmpty {
+                    if (item.mediaType == MediaType.TV) tvSeriesLabel else movieLabel
+                }
+                val displayDate = item.releaseDate?.takeIf { it.isNotEmpty() } ?: item.year
+                val hasDuration = item.duration.isNotEmpty() && item.duration != "0m"
+                val overviewMaxHeight = if (isCompactHeight) 78.dp else 88.dp
+
+                val separatorStyle = ArflixTypography.caption.copy(
+                    fontSize = 13.sp,
+                    shadow = textShadow
+                )
+
+                Column(
+                    modifier = Modifier.width(420.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = genreText,
+                            style = ArflixTypography.caption.copy(
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                shadow = textShadow
+                            ),
+                            color = Color.White,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f, fill = false)
+                        )
+
+                        if (displayDate.isNotEmpty()) {
+                            Text(text = "|", style = separatorStyle, color = Color.White.copy(alpha = 0.6f))
+                            Text(
+                                text = displayDate,
+                                style = ArflixTypography.caption.copy(
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    shadow = textShadow
+                                ),
+                                color = Color.White,
+                                maxLines = 1
+                            )
+                        }
+
+                        if (hasDuration) {
+                            Text(text = "|", style = separatorStyle, color = Color.White.copy(alpha = 0.6f))
+                            Text(
+                                text = item.duration,
+                                style = ArflixTypography.caption.copy(
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    shadow = textShadow
+                                ),
+                                color = Color.White,
+                                maxLines = 1
+                            )
+                        }
+
+                        item.contentRating?.let { contentRating ->
+                            Text(text = "|", style = separatorStyle, color = Color.White.copy(alpha = 0.6f))
+                            Text(
+                                text = contentRating,
+                                style = ArflixTypography.caption.copy(
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    shadow = textShadow
+                                ),
+                                color = Color.White,
+                                maxLines = 1
+                            )
+                        }
+                    }
+
+
+                }
+
+                Spacer(modifier = Modifier.height(if (compactEpisodeHero) 8.dp else 10.dp))
+
+                val displayOverview = item.overview
+                val overviewWidth = minOf(820.dp, configuration.screenWidthDp.dp * 0.66f).coerceAtLeast(420.dp)
+                val overviewStyle = ArflixTypography.body.copy(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                    lineHeight = 19.sp,
+                    shadow = textShadow
+                )
+                val overviewMaxLines = 4
+                // Personal build: only whole sentences that fit the box, measured at the real
+                // width/style/line limit; always ends on a sentence end, never on "…".
+                val overviewMeasurer = rememberTextMeasurer()
+                val overviewDensity = LocalDensity.current
+                val shownOverview = if (com.arflix.tv.BuildConfig.PERSONAL_BUILD) {
+                    remember(displayOverview, overviewWidth, overviewMaxHeight, overviewStyle, overviewDensity) {
+                        val widthPx = with(overviewDensity) { overviewWidth.roundToPx() }
+                        val heightPx = with(overviewDensity) { overviewMaxHeight.roundToPx() }
+                        fitOverviewToWholeSentences(displayOverview) { candidate ->
+                            !overviewMeasurer.measure(
+                                text = AnnotatedString(candidate),
+                                style = overviewStyle,
+                                maxLines = overviewMaxLines,
+                                constraints = androidx.compose.ui.unit.Constraints(maxWidth = widthPx, maxHeight = heightPx)
+                            ).hasVisualOverflow
+                        }
+                    }
+                } else displayOverview
+
+                // Wider than the metadata column: the overview has the space to its side, and the
+                // extra width shows far more of it in the same three lines.
+                Box(
+                    modifier = Modifier
+                        .width(overviewWidth)
+                        .heightIn(max = overviewMaxHeight)
+                ) {
+                    Text(
+                        text = shownOverview,
+                        style = overviewStyle,
+                        color = Color.White,
+                        // Four lines at this width; still fits overviewMaxHeight.
+                        maxLines = overviewMaxLines,
+                        overflow = if (com.arflix.tv.BuildConfig.PERSONAL_BUILD) TextOverflow.Clip else TextOverflow.Ellipsis
+                    )
+                }
+
+                // Space before action buttons (flexible slot for future in-between items)
+                Spacer(modifier = Modifier.height(if (compactEpisodeHero) 8.dp else 14.dp))
+
+                val buttonWatched = if (item.mediaType == MediaType.TV) {
+                    episodes.getOrNull(episodeIndex)?.isWatched ?: item.isWatched
+                } else {
+                    item.isWatched
+                }
+
+                    // Play, Watched, Watchlist and the show-only auto-play toggle.
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        val personalPlayLabel = if (!playLabel.isNullOrBlank()) playLabel else stringResource(R.string.play)
+                        Box(modifier = Modifier.clickable { onButtonClick(0) }) {
+                            PersonalPlayButton(
+                                text = personalPlayLabel,
+                                isFocused = focusSectionForUi == FocusSection.BUTTONS && buttonIndex == 0
+                            )
+                        }
+                        Box(modifier = Modifier.clickable { onButtonClick(3) }) {
+                            PremiumActionButton(
+                                icon = if (buttonWatched) Icons.Default.Check else Icons.Default.Visibility,
+                                text = if (buttonWatched) stringResource(R.string.watched) else stringResource(R.string.details_btn_mark_watched),
+                                isFocused = focusSectionForUi == FocusSection.BUTTONS && buttonIndex == 3,
+                                isActive = buttonWatched,
+                                isIconOnly = true
+                            )
+                        }
+                        Box(modifier = Modifier.clickable { onButtonClick(PERSONAL_WATCHLIST_BUTTON_INDEX) }) {
+                            PremiumActionButton(
+                                icon = if (isInWatchlist) Icons.Default.Check else Icons.Default.Add,
+                                text = stringResource(if (isInWatchlist) R.string.personal_in_watchlist else R.string.personal_add_watchlist),
+                                isFocused = focusSectionForUi == FocusSection.BUTTONS && buttonIndex == PERSONAL_WATCHLIST_BUTTON_INDEX,
+                                isActive = isInWatchlist
+                            )
+                        }
+                        if (item.mediaType == MediaType.TV) {
+                            Box(modifier = Modifier.clickable { onButtonClick(PERSONAL_AUTOPLAY_BUTTON_INDEX) }) {
+                                PremiumActionButton(
+                                    icon = Icons.Default.SkipNext,
+                                    text = stringResource(R.string.autoplay_next_episode) + ": " + stringResource(if (autoPlayNext) R.string.on else R.string.off),
+                                    isFocused = focusSectionForUi == FocusSection.BUTTONS && buttonIndex == PERSONAL_AUTOPLAY_BUTTON_INDEX,
+                                    isActive = autoPlayNext
+                                )
+                            }
+                        }
+                    }
+
+            }
+
+            DetailsTvRows(
+                modifier = Modifier,
+                item = item,
+                episodes = episodes,
+                totalSeasons = totalSeasons,
+                currentSeason = currentSeason,
+                focusedSection = focusedSection,
+                focusSectionForUi = focusSectionForUi,
+                episodeIndex = episodeIndex,
+                seasonIndex = seasonIndex,
+                seasonProgress = seasonProgress,
+                episodePlaybackProgress = episodePlaybackProgress,
+                selectedEpisodeIdentity = selectedEpisodeIdentity,
+                usePosterCards = usePosterCards,
+                spoilerBlurEnabled = spoilerBlurEnabled,
+                isSeasonLoading = isSeasonLoading,
+                contentRowBottomPadding = contentRowBottomPadding,
+                configuration = configuration,
+                contentHasFocus = contentHasFocus,
+                onSeasonClick = onSeasonClick,
+                onSeasonLongClick = onSeasonLongClick,
+                onEpisodeClick = onEpisodeClick,
+            )
+        }
+    }
+}
+
+@Composable
+private fun DetailsTvRows(
+    modifier: Modifier,
+    item: MediaItem,
+    episodes: List<Episode>,
+    totalSeasons: Int,
+    currentSeason: Int,
+    focusedSection: FocusSection,
+    focusSectionForUi: FocusSection?,
+    episodeIndex: Int,
+    seasonIndex: Int,
+    seasonProgress: Map<Int, Pair<Int, Int>>,
+    episodePlaybackProgress: Map<EpisodeIdentity, EpisodePlaybackProgress>,
+    selectedEpisodeIdentity: EpisodeIdentity?,
+    usePosterCards: Boolean,
+    spoilerBlurEnabled: Boolean,
+    isSeasonLoading: Boolean = false,
+    contentRowBottomPadding: Dp,
+    configuration: android.content.res.Configuration,
+    contentHasFocus: Boolean,
+    onSeasonClick: (Int) -> Unit,
+    onSeasonLongClick: ((Int) -> Unit)? = null,
+    onEpisodeClick: (Int) -> Unit,
+) {
+    val contentScrollState = rememberTvLazyListState()
+    val isTV = item.mediaType == MediaType.TV
+    LaunchedEffect(item.mediaType, item.id, currentSeason) {
+        contentScrollState.scrollToItem(0, 0)
+    }
+
+    val contentStartPadding = 12.dp
+    val contentOuterStartPadding = 24.dp
+
+    TvLazyColumn(
+        state = contentScrollState,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, bottom = contentRowBottomPadding)
+            .arvioManualBringIntoViewBoundary()
+            .arvioDpadFocusGroup(enableFocusRestorer = false)
+            .clipToBounds(),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        contentPadding = PaddingValues(top = 6.dp)
+    ) {
+        if (item.mediaType == MediaType.TV && (episodes.isNotEmpty() || isSeasonLoading)) {
+            if (totalSeasons > 1) {
+                item {
+                    DetailsSeasonRail(
+                        totalSeasons = totalSeasons,
+                        currentSeason = currentSeason,
+                        episodes = episodes,
+                        seasonProgress = seasonProgress,
+                        focusSectionForUi = focusSectionForUi,
+                        seasonIndex = seasonIndex,
+                        contentStartPadding = contentStartPadding,
+                        contentOuterStartPadding = contentOuterStartPadding,
+                        onSeasonClick = onSeasonClick,
+                        onSeasonLongClick = onSeasonLongClick
+                    )
+                }
+            }
+
+            item {
+                DetailsEpisodeRail(
+                    episodes = episodes,
+                    episodePlaybackProgress = episodePlaybackProgress,
+                    selectedEpisodeIdentity = selectedEpisodeIdentity,
+                    episodeIndex = episodeIndex,
+                    focusSectionForUi = focusSectionForUi,
+                    configuration = configuration,
+                    contentStartPadding = contentStartPadding,
+                    contentOuterStartPadding = contentOuterStartPadding,
+                    spoilerBlurEnabled = spoilerBlurEnabled,
+                    isSeasonLoading = isSeasonLoading,
+                    onEpisodeClick = onEpisodeClick
+                )
+            }
+        }
+
+
+
+        item { Spacer(modifier = Modifier.height(20.dp)) }
+    }
+}
+
+@Composable
+private fun DetailsSeasonRail(
+    totalSeasons: Int,
+    currentSeason: Int,
+    episodes: List<Episode>,
+    seasonProgress: Map<Int, Pair<Int, Int>>,
+    focusSectionForUi: FocusSection?,
+    seasonIndex: Int,
+    contentStartPadding: Dp,
+    contentOuterStartPadding: Dp,
+    onSeasonClick: (Int) -> Unit,
+    onSeasonLongClick: ((Int) -> Unit)? = null
+) {
+    val seasonRowState = rememberTvLazyListState()
+    val seasonItems = remember(totalSeasons) { (1..totalSeasons).toList() }
+    HomeStyleRowAutoScroll(
+        rowState = seasonRowState,
+        isCurrentRow = focusSectionForUi == FocusSection.SEASONS,
+        focusedItemIndex = seasonIndex,
+        totalItems = totalSeasons,
+        itemWidth = 96.dp,
+        itemSpacing = 8.dp
+    )
+
+    val seasonFocusIndex by remember(focusSectionForUi, seasonIndex) {
+        derivedStateOf {
+            if (focusSectionForUi == FocusSection.SEASONS) seasonIndex else -1
+        }
+    }
+
+    val currentOnSeasonClick = rememberUpdatedState(onSeasonClick)
+
+    TvLazyRow(
+        state = seasonRowState,
+        modifier = Modifier.arvioDpadFocusGroup(enableFocusRestorer = false),
+        contentPadding = PaddingValues(
+            start = contentStartPadding,
+            end = lockedDetailsRailEndPadding(
+                itemWidth = 96.dp,
+                startPadding = contentStartPadding,
+                outerStartPadding = contentOuterStartPadding,
+                minimum = 150.dp
+            ),
+            top = 6.dp,
+            bottom = 6.dp,
+        ),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        itemsIndexed(seasonItems, key = { _, s -> s }) { index, season ->
+            val progress = seasonProgress[season]
+            val currentSeasonProgress = if (season == currentSeason && episodes.isNotEmpty()) {
+                Pair(episodes.count { it.isWatched }, episodes.size)
+            } else {
+                null
+            }
+            val onClickForSeason = remember(index) {
+                { currentOnSeasonClick.value(index) }
+            }
+            val onLongClickForSeason = remember(index, onSeasonLongClick) {
+                onSeasonLongClick?.let { callback -> { callback(index) } }
+            }
+            SeasonButton(
+                season = season,
+                isSelected = season == currentSeason,
+                isFocused = focusSectionForUi == FocusSection.SEASONS && index == seasonFocusIndex,
+                watchedCount = currentSeasonProgress?.first ?: progress?.first ?: 0,
+                totalCount = currentSeasonProgress?.second ?: progress?.second ?: 0,
+                onClick = onClickForSeason,
+                onLongClick = onLongClickForSeason
+            )
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+@Composable
+private fun DetailsEpisodeRail(
+    episodes: List<Episode>,
+    episodePlaybackProgress: Map<EpisodeIdentity, EpisodePlaybackProgress>,
+    selectedEpisodeIdentity: EpisodeIdentity?,
+    episodeIndex: Int,
+    focusSectionForUi: FocusSection?,
+    configuration: android.content.res.Configuration,
+    contentStartPadding: Dp,
+    contentOuterStartPadding: Dp,
+    spoilerBlurEnabled: Boolean,
+    isSeasonLoading: Boolean = false,
+    onEpisodeClick: (Int) -> Unit
+) {
+    val episodeCardWidth = if (configuration.screenWidthDp < 1400) 292.dp else 300.dp
+    val episodeRowState = rememberTvLazyListState()
+    val episodeFixedFocus = focusSectionForUi == FocusSection.EPISODES &&
+        detailsRailUsesFixedFirstSlotFocus(
+            totalItems = episodes.size,
+            focusedItemIndex = episodeIndex
+        )
+    HomeStyleRowAutoScroll(
+        rowState = episodeRowState,
+        isCurrentRow = focusSectionForUi == FocusSection.EPISODES,
+        focusedItemIndex = episodeIndex,
+        totalItems = episodes.size,
+        itemWidth = episodeCardWidth,
+        itemSpacing = 16.dp
+    )
+
+    val currentFocusedSection by rememberUpdatedState(focusSectionForUi)
+    val currentEpisodeIndex by rememberUpdatedState(episodeIndex)
+
+    val currentOnEpisodeClick = rememberUpdatedState(onEpisodeClick)
+
+    Box(modifier = Modifier.fillMaxWidth()) {
+        TvLazyRow(
+            state = episodeRowState,
+            modifier = Modifier.arvioDpadFocusGroup(enableFocusRestorer = false),
+            contentPadding = PaddingValues(
+                start = contentStartPadding,
+                end = lockedDetailsRailEndPadding(
+                    itemWidth = episodeCardWidth,
+                    startPadding = contentStartPadding,
+                    outerStartPadding = contentOuterStartPadding,
+                    minimum = 520.dp
+                ),
+                top = 6.dp,
+                bottom = 6.dp,
+            ),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            if (isSeasonLoading) {
+                items(4) {
+                    SkeletonEpisodeCard(modifier = Modifier.width(episodeCardWidth))
+                }
+            } else {
+                itemsIndexed(
+                    episodes,
+                    key = { index, ep -> "${ep.seasonNumber}_${ep.episodeNumber}_$index" }
+                ) { index, episode ->
+                    val isFocused = currentFocusedSection == FocusSection.EPISODES && index == currentEpisodeIndex
+                    val onClickForEpisode = remember(index) {
+                        { currentOnEpisodeClick.value(index) }
+                    }
+                    EpisodeCard(
+                        episode = episode,
+                        playbackProgress = episodePlaybackProgress[episode.identity],
+                        isSelected = episode.identity == selectedEpisodeIdentity,
+                        cardWidth = episodeCardWidth,
+                        isFocused = isFocused && !episodeFixedFocus,
+                        spoilerBlurEnabled = spoilerBlurEnabled,
+                        onClick = onClickForEpisode
+                    )
+                }
+            }
+        }
+        if (episodeFixedFocus) {
+            FixedDetailsRailFocusOverlay(
+                startPadding = contentStartPadding,
+                topPadding = 6.dp,
+                width = episodeCardWidth,
+                aspectRatio = 16f / 9f,
+                highContrast = true
+            )
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+@Composable
+private fun detailsRailIsScrollable(
+    totalItems: Int,
+    itemWidth: Dp,
+    itemSpacing: Dp
+): Boolean {
+    val configuration = LocalConfiguration.current
+    val density = LocalDensity.current
+    val visibleCapacity = remember(configuration, density, itemWidth, itemSpacing) {
+        val availablePx = with(density) {
+            (configuration.screenWidthDp.dp - 56.dp - 12.dp).coerceAtLeast(1.dp).roundToPx()
+        }
+        val itemSpanPx = with(density) { (itemWidth + itemSpacing).roundToPx() }.coerceAtLeast(1)
+        ((availablePx + itemSpanPx - 1) / itemSpanPx).coerceAtLeast(1)
+    }
+    return totalItems > visibleCapacity
+}
+
+private fun detailsRailUsesFixedFirstSlotFocus(
+    totalItems: Int,
+    focusedItemIndex: Int
+): Boolean {
+    if (focusedItemIndex < 0 || totalItems <= 0) return false
+    return totalItems > 1 && focusedItemIndex <= totalItems - 1
+}
+
+@Composable
+private fun lockedDetailsRailEndPadding(
+    itemWidth: Dp,
+    startPadding: Dp,
+    outerStartPadding: Dp,
+    minimum: Dp
+): Dp {
+    val configuration = LocalConfiguration.current
+    return (configuration.screenWidthDp.dp - outerStartPadding - startPadding - itemWidth)
+        .coerceAtLeast(minimum)
+}
+
+private val DetailsScrollEasing = FastOutSlowInEasing
+
+private suspend fun TvLazyListState.animateDetailsScrollDelta(
+    deltaPx: Float,
+    durationMillis: Int,
+    easing: Easing = DetailsScrollEasing
+) {
+    if (abs(deltaPx) <= 0.5f) return
+    scroll(scrollPriority = MutatePriority.PreventUserInput) {
+        var previousValue = 0f
+        animate(
+            initialValue = 0f,
+            targetValue = deltaPx,
+            animationSpec = tween(durationMillis = durationMillis, easing = easing)
+        ) { value, _ ->
+            val step = value - previousValue
+            if (abs(step) > 0.001f) {
+                scrollBy(step)
+            }
+            previousValue = value
+        }
+    }
+}
+
+@Composable
+private fun FixedDetailsRailFocusOverlay(
+    startPadding: Dp,
+    topPadding: Dp,
+    width: Dp,
+    aspectRatio: Float,
+    highContrast: Boolean = false
+) {
+    ArvioFocusableSurface(
+        modifier = Modifier
+            .padding(start = startPadding, top = topPadding)
+            .width(width)
+            .aspectRatio(aspectRatio)
+            .zIndex(4f),
+        shape = rememberArvioCardShape(ArvioSkin.radius.md),
+        backgroundColor = Color.Transparent,
+        outlineColor = if (highContrast) Color.White else ArvioSkin.colors.focusOutline,
+        outlineWidth = 2.5.dp,
+        focusedScale = 1f,
+        pressedScale = 0.97f,
+        animateFocus = false,
+        enableSystemFocus = false,
+        isFocusedOverride = true
+    ) {
+        // Fixed focus lane: rows scroll under this ring.
+    }
+}
+
+@Composable
+private fun HomeStyleRowAutoScroll(
+    rowState: TvLazyListState,
+    isCurrentRow: Boolean,
+    focusedItemIndex: Int,
+    totalItems: Int,
+    itemWidth: androidx.compose.ui.unit.Dp,
+    itemSpacing: androidx.compose.ui.unit.Dp
+) {
+    val density = LocalDensity.current
+    val maxFirstIndex = remember(totalItems) {
+        (totalItems - 1).coerceAtLeast(0)
+    }
+    val scrollTargetIndex by remember(rowState, focusedItemIndex, isCurrentRow, totalItems, maxFirstIndex) {
+        derivedStateOf {
+            if (!isCurrentRow || focusedItemIndex < 0) return@derivedStateOf -1
+            if (totalItems == 0) return@derivedStateOf -1
+            focusedItemIndex.coerceAtMost(maxFirstIndex)
+        }
+    }
+    val itemSizes = remember { mutableMapOf<Int, Int>() }
+    val visibleItems = rowState.layoutInfo.visibleItemsInfo
+    LaunchedEffect(visibleItems) {
+        visibleItems.forEach { item ->
+            itemSizes[item.index] = item.size
+        }
+    }
+
+    var lastScrollIndex by remember { mutableIntStateOf(-1) }
+    var lastScrollOffset by remember { mutableIntStateOf(-1) }
+    var lastScrollTimeMs by remember { mutableLongStateOf(0L) }
+
+    LaunchedEffect(isCurrentRow) {
+        if (!isCurrentRow) {
+            lastScrollIndex = -1
+            lastScrollOffset = -1
+        }
+    }
+    LaunchedEffect(scrollTargetIndex, isCurrentRow, focusedItemIndex) {
+        if (!isCurrentRow || scrollTargetIndex < 0) return@LaunchedEffect
+
+        val extraOffset = 0
+
+        val currentFirst = rowState.firstVisibleItemIndex
+        val currentOffset = rowState.firstVisibleItemScrollOffset
+        val isAlreadyAtTarget = currentFirst == scrollTargetIndex &&
+            abs(currentOffset - extraOffset) <= 2
+        if (isAlreadyAtTarget) {
+            lastScrollIndex = scrollTargetIndex
+            lastScrollOffset = extraOffset
+            return@LaunchedEffect
+        }
+
+        if (lastScrollIndex == -1) {
+            rowState.scrollToItem(index = scrollTargetIndex, scrollOffset = extraOffset)
+            lastScrollIndex = scrollTargetIndex
+            lastScrollOffset = extraOffset
+            return@LaunchedEffect
+        }
+
+        val currentLast = rowState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: currentFirst
+        val targetOutsideViewport = scrollTargetIndex < currentFirst || scrollTargetIndex > currentLast
+        val delta = scrollTargetIndex - currentFirst
+        val offsetDelta = abs(extraOffset - currentOffset)
+
+        if (abs(delta) > 6) {
+            rowState.scrollToItem(index = scrollTargetIndex, scrollOffset = extraOffset)
+        } else if (delta != 0 || targetOutsideViewport || offsetDelta > 2) {
+            val nowMs = SystemClock.elapsedRealtime()
+            val isFast = (nowMs - lastScrollTimeMs) < 180L
+            lastScrollTimeMs = nowMs
+
+            val layoutInfo = rowState.layoutInfo
+            layoutInfo.visibleItemsInfo.forEach { item ->
+                itemSizes[item.index] = item.size
+            }
+
+            val defaultItemSizePx = with(density) { itemWidth.roundToPx() }
+            val spacingPx = layoutInfo.mainAxisItemSpacing.takeIf { it > 0 }
+                ?: with(density) { itemSpacing.roundToPx() }
+            val beforePaddingPx = layoutInfo.beforeContentPadding
+
+            fun calculateScrollPosition(index: Int, scrollOffset: Int): Int {
+                if (index <= 0) return scrollOffset
+                var pos = beforePaddingPx + scrollOffset
+                for (i in 0 until index) {
+                    pos += (itemSizes[i] ?: defaultItemSizePx) + spacingPx
+                }
+                return pos
+            }
+
+            val targetItem = layoutInfo.visibleItemsInfo.firstOrNull { it.index == scrollTargetIndex }
+            val deltaPx = if (scrollTargetIndex == 0) {
+                if (currentFirst == 0) {
+                    -currentOffset.toFloat()
+                } else {
+                    val currentPos = calculateScrollPosition(currentFirst, currentOffset)
+                    -currentPos.toFloat()
+                }
+            } else if (targetItem != null) {
+                (targetItem.offset - extraOffset).toFloat()
+            } else {
+                val currentPos = calculateScrollPosition(currentFirst, currentOffset)
+                val targetPos = calculateScrollPosition(scrollTargetIndex, extraOffset)
+                (targetPos - currentPos).toFloat()
+            }
+
+            val duration = when {
+                isFast -> 120
+                abs(delta) >= 3 -> 200
+                else -> 180
+            }
+
+            rowState.animateDetailsScrollDelta(
+                deltaPx = deltaPx,
+                durationMillis = duration,
+                easing = DetailsScrollEasing
+            )
+
+            // Ensure exact alignment if item index is off, or if significantly drifted
+            if (rowState.firstVisibleItemIndex != scrollTargetIndex) {
+                rowState.scrollToItem(index = scrollTargetIndex, scrollOffset = extraOffset)
+            } else if (abs(rowState.firstVisibleItemScrollOffset - extraOffset) > 16) {
+                rowState.scrollToItem(index = scrollTargetIndex, scrollOffset = extraOffset)
+            }
+        }
+        lastScrollIndex = scrollTargetIndex
+        lastScrollOffset = extraOffset
+    }
+}
+
+
+
+
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun MobileMetadataSeparator() {
+    Text(
+        text = "•",
+        style = ArflixTypography.caption.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold),
+        color = Color.White.copy(alpha = 0.42f),
+        maxLines = 1
+    )
+}
+
+/**
+ * Mobile action button — labeled, tappable, Netflix-style
+ */
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun MobileActionButton(
+    icon: ImageVector,
+    text: String,
+    isPrimary: Boolean = false,
+    isActive: Boolean = false,
+    isOutlined: Boolean = false,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    val shape = RoundedCornerShape(percent = 50)
+    val targetBgColor = when {
+        isPrimary -> Color.White
+        isOutlined -> Color.Transparent
+        isActive -> Color.White.copy(alpha = 0.15f)
+        else -> Color.White.copy(alpha = 0.08f)
+    }
+    val targetContentColor = if (isPrimary) Color.Black else Color.White.copy(alpha = 0.92f)
+    val targetBorderColor = if (isOutlined) Color.White.copy(alpha = if (isActive) 0.55f else 0.22f) else Color.Transparent
+
+    val bgColor by animateColorAsState(targetValue = targetBgColor, animationSpec = tween(200), label = "btn_bg")
+    val contentColor by animateColorAsState(targetValue = targetContentColor, animationSpec = tween(200), label = "btn_content")
+    val borderColor by animateColorAsState(targetValue = targetBorderColor, animationSpec = tween(200), label = "btn_border")
+
+    Row(
+        modifier = modifier
+            .clip(shape)
+            .background(bgColor, shape)
+            .border(1.dp, borderColor, shape)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 18.dp, vertical = 10.dp)
+            .animateContentSize(animationSpec = tween(200)),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Crossfade(targetState = icon, animationSpec = tween(200), label = "btn_icon") { currentIcon ->
+            Icon(
+                imageVector = currentIcon,
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(if (isPrimary) 24.dp else 22.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        AnimatedContent(
+            targetState = text,
+            transitionSpec = { fadeIn(tween(200)) togetherWith fadeOut(tween(150)) },
+            label = "btn_text"
+        ) { currentText ->
+            Text(
+                text = currentText,
+                style = ArvioSkin.typography.button.copy(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                ),
+                color = contentColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
+private fun MobileIconActionButton(
+    icon: ImageVector,
+    contentDescription: String,
+    isActive: Boolean = false,
+    enabled: Boolean = true,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    val shape = RoundedCornerShape(20.dp)
+    val targetBackgroundColor = when {
+        !enabled -> Color.White.copy(alpha = 0.04f)
+        isActive -> Color.White.copy(alpha = 0.18f)
+        else -> Color.White.copy(alpha = 0.08f)
+    }
+    val targetContentColor = if (enabled) {
+        Color.White.copy(alpha = if (isActive) 0.96f else 0.88f)
+    } else {
+        Color.White.copy(alpha = 0.3f)
+    }
+    val targetBorderColor = if (isActive) {
+        Color.White.copy(alpha = 0.28f)
+    } else {
+        Color.White.copy(alpha = 0.12f)
+    }
+
+    val backgroundColor by animateColorAsState(targetValue = targetBackgroundColor, animationSpec = tween(200), label = "icon_btn_bg")
+    val contentColor by animateColorAsState(targetValue = targetContentColor, animationSpec = tween(200), label = "icon_btn_content")
+    val borderColor by animateColorAsState(targetValue = targetBorderColor, animationSpec = tween(200), label = "icon_btn_border")
+
+    Box(
+        modifier = modifier
+            .clip(shape)
+            .background(backgroundColor, shape)
+            .border(1.dp, borderColor, shape)
+            .clickable(enabled = enabled, onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Crossfade(targetState = icon, animationSpec = tween(200), label = "icon_btn_crossfade") { currentIcon ->
+            Icon(
+                imageVector = currentIcon,
+                contentDescription = contentDescription,
+                tint = contentColor,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+    }
+}
+
+/**
+ * Premium ActionButton with smooth animations and glass morphism effect
+ */
+/**
+ * Personal build: the big labeled Play pill. Always shows "▶ <label>"; white with dark content
+ * when focused (a larger pill), translucent when not.
+ */
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun PersonalPlayButton(
+    text: String,
+    isFocused: Boolean
+) {
+    val shape = RoundedCornerShape(14.dp)
+    val scale by animateFloatAsState(
+        targetValue = if (isFocused) 1.05f else 1f,
+        animationSpec = androidx.compose.animation.core.spring(dampingRatio = 0.8f, stiffness = 400f),
+        label = "personal_play_scale"
+    )
+    val backgroundColor by animateColorAsState(
+        targetValue = if (isFocused) Color.White else Color.White.copy(alpha = 0.16f),
+        animationSpec = tween(150),
+        label = "personal_play_bg"
+    )
+    val contentColor by animateColorAsState(
+        targetValue = if (isFocused) Color.Black else Color.White,
+        animationSpec = tween(150),
+        label = "personal_play_content"
+    )
+    Row(
+        modifier = Modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .background(backgroundColor, shape)
+            .padding(start = 22.dp, end = 28.dp, top = 11.dp, bottom = 11.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.PlayArrow,
+            contentDescription = null,
+            tint = contentColor,
+            modifier = Modifier.size(26.dp)
+        )
+        Text(
+            text = text,
+            style = ArvioSkin.typography.button.copy(
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.3.sp
+            ),
+            color = contentColor,
+            maxLines = 1,
+            softWrap = false
+        )
+    }
+}
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun PremiumActionButton(
+    icon: ImageVector,
+    text: String,
+    isFocused: Boolean,
+    isPrimary: Boolean = false,
+    isIconOnly: Boolean = false,
+    isActive: Boolean = false
+) {
+    val shape = RoundedCornerShape(12.dp)
+    val density = LocalDensity.current
+    val textMeasurer = rememberTextMeasurer()
+    val textStyle = ArvioSkin.typography.button.copy(
+        fontSize = 12.sp,
+        fontWeight = FontWeight.SemiBold,
+        letterSpacing = 0.3.sp
+    )
+    val iconSize = 20.dp
+    val expandedPadding = 12.dp
+    val collapsedPadding = 0.dp
+    val labelSpacing = 8.dp
+    val labelExtraWidth = 6.dp
+    val showLabel = isFocused && text.isNotBlank()
+
+    val labelWidthPx = remember(text, density) {
+        if (text.isBlank()) 0 else {
+            textMeasurer.measure(AnnotatedString(text), style = textStyle).size.width
+        }
+    }
+    val labelWidthDp = with(density) { labelWidthPx.toDp() }
+    val targetPadding = if (showLabel) expandedPadding else collapsedPadding
+    val horizontalPadding by animateDpAsState(
+        targetValue = targetPadding,
+        animationSpec = tween(140),
+        label = "button_padding"
+    )
+    val baseWidth = iconSize + (if (showLabel) targetPadding * 2 else 0.dp)
+    val expandedWidth = baseWidth + labelSpacing + labelWidthDp + labelExtraWidth
+    val targetWidth = if (showLabel) expandedWidth else iconSize
+    val animatedWidth by animateDpAsState(
+        targetValue = targetWidth,
+        animationSpec = tween(
+            durationMillis = AnimationConstants.DURATION_FAST,
+            easing = AnimationConstants.EaseOut
+        ),
+        label = "button_width"
+    )
+    val labelAlpha by animateFloatAsState(
+        targetValue = if (showLabel) 1f else 0f,
+        animationSpec = tween(
+            durationMillis = AnimationConstants.DURATION_FAST,
+            easing = AnimationConstants.EaseOut
+        ),
+        label = "button_label_alpha"
+    )
+
+    // Animated scale for focus
+    val scale by animateFloatAsState(
+        targetValue = if (isFocused) 1.05f else 1f,
+        animationSpec = androidx.compose.animation.core.spring(dampingRatio = 0.8f, stiffness = 400f),
+        label = "button_scale"
+    )
+
+    // Resolve accent color for focused button backgrounds
+    val accent = resolveAccentColor(fallback = Color.White)
+
+    // Animated background color - button fills with accent when focused
+    val backgroundColor by animateColorAsState(
+        targetValue = when {
+            isFocused && isPrimary -> accent
+            isFocused -> accent
+            else -> Color.Transparent
+        },
+        animationSpec = tween(150),
+        label = "button_bg"
+    )
+
+    // Animated text/icon color - white on accent bg when focused, white otherwise
+    // Use dark text for light accent colors (White, Yellow) to ensure contrast
+    val contentColor by animateColorAsState(
+        targetValue = if (isFocused) {
+            val l = 0.299f * accent.red + 0.587f * accent.green + 0.114f * accent.blue
+            if (l > 0.5f) Color.Black else Color.White
+        } else Color.White.copy(alpha = 0.9f),
+        animationSpec = tween(150),
+        label = "button_content"
+    )
+
+    // Animated border - all non-focused buttons get a subtle border
+    val borderAlpha by animateFloatAsState(
+        targetValue = 0f,
+        animationSpec = tween(150),
+        label = "border_alpha"
+    )
+
+    val contentAlignment = if (!showLabel) Alignment.Center else Alignment.CenterStart
+
+    Box(
+        modifier = Modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .width(animatedWidth)
+            .background(
+                if (isFocused) backgroundColor else Color.Transparent,
+                shape
+            )
+            .then(
+                if (borderAlpha > 0f) {
+                    Modifier.border(
+                        width = 1.dp,
+                        color = Color.White.copy(alpha = borderAlpha),
+                        shape = shape
+                    )
+                } else Modifier
+            )
+            .clipToBounds()
+            .padding(horizontal = horizontalPadding, vertical = 8.dp),
+        contentAlignment = contentAlignment
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(labelSpacing)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(iconSize)
+            )
+            if (text.isNotEmpty() && (showLabel || labelAlpha > 0.01f)) {
+                Text(
+                    text = text,
+                    style = textStyle,
+                    color = contentColor,
+                    maxLines = 1,
+                    softWrap = false,
+                    overflow = TextOverflow.Clip,
+                    modifier = Modifier.graphicsLayer {
+                        alpha = labelAlpha
+                        translationX = (1f - labelAlpha) * with(density) { 6.dp.toPx() }
+                    }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+internal fun EpisodeCard(
+    episode: Episode,
+    playbackProgress: EpisodePlaybackProgress? = null,
+    isSelected: Boolean = false,
+    cardWidth: androidx.compose.ui.unit.Dp = 300.dp,
+    isFocused: Boolean,
+    spoilerBlurEnabled: Boolean = false,
+    onClick: () -> Unit = {}
+) {
+    val aspectRatio = 16f / 9f
+    val context = LocalContext.current
+    val density = LocalDensity.current
+    val metadataLogoImageLoader = context.imageLoader
+
+    val shape = rememberArvioCardShape(ArvioSkin.radius.md)
+    val borderWidth = when {
+        isFocused -> 3.dp
+        isSelected -> 2.dp
+        else -> 0.dp
+    }
+
+    val imageRequest = remember(episode.stillPath, cardWidth, context, density) {
+        val widthPx = with(density) { cardWidth.roundToPx() }
+        val heightPx = (widthPx / aspectRatio).toInt().coerceAtLeast(1)
+        ImageRequest.Builder(context)
+            .data(episode.stillPath)
+            .size(widthPx, heightPx)
+            .precision(Precision.INEXACT)
+            .allowHardware(true)
+            .crossfade(false)
+            .build()
+    }
+
+    val episodeCode = "S${episode.seasonNumber} • E${String.format("%02d", episode.episodeNumber)}"
+    val isSpoilerBlurred = spoilerBlurEnabled && !episode.isWatched
+    val noSynopsisText = stringResource(R.string.details_no_synopsis)
+    val previewText = if (isSpoilerBlurred) {
+        ""
+    } else {
+        episode.overview
+            .trim()
+            .ifEmpty { noSynopsisText }
+    }
+    val episodeAirDateLabel = remember(episode.airDate) { formatEpisodeAirDateLabel(episode.airDate) }
+    val isEpisodeUnaired = remember(episode.airDate) { isFutureEpisodeAirDate(episode.airDate) }
+
+    ArvioFocusableSurface(
+        modifier = Modifier
+            .width(cardWidth)
+            .aspectRatio(aspectRatio)
+            .testTag("episode_${episode.seasonNumber}_${episode.episodeNumber}"),
+        shape = shape,
+        backgroundColor = ArvioSkin.colors.surface,
+        outlineColor = Color.White,
+        outlineWidth = borderWidth,
+        focusedScale = 1f,
+        pressedScale = 1f,
+        enableSystemFocus = false,
+        isFocusedOverride = isFocused,
+        onClick = onClick,
+    ) { _ ->
+        Box(modifier = Modifier.fillMaxSize()) {
+            AsyncImage(
+                model = imageRequest,
+                contentDescription = episode.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .then(
+                        if (isSpoilerBlurred && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) Modifier.blur(20.dp) else Modifier
+                    )
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Black.copy(alpha = 0.18f),
+                                Color.Black.copy(alpha = 0.05f),
+                                Color.Black.copy(alpha = 0.65f),
+                                Color.Black.copy(alpha = 0.95f)
+                            )
+                        )
+                    )
+            )
+
+            if (isSpoilerBlurred && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.85f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.details_spoiler),
+                        style = ArvioSkin.typography.caption.copy(fontWeight = FontWeight.Bold),
+                        color = Color.White.copy(alpha = 0.6f)
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(Color.Black.copy(alpha = 0.55f), RoundedCornerShape(6.dp))
+                        .padding(horizontal = 6.dp, vertical = 3.dp)
+                ) {
+                    Text(
+                        text = episodeCode,
+                        style = ArvioSkin.typography.caption.copy(
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.sp
+                        ),
+                        color = Color.White.copy(alpha = 0.95f),
+                        maxLines = 1
+                    )
+                }
+                if (episode.isWatched) {
+                    Icon(Icons.Default.Check, stringResource(R.string.watched), tint = ArvioSkin.colors.watchedGreen, modifier = Modifier.size(16.dp))
+                }
+            }
+
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(
+                        start = 10.dp,
+                        end = 10.dp,
+                        top = 8.dp,
+                        bottom = if (playbackProgress != null) 15.dp else 8.dp
+                    )
+            ) {
+                Text(
+                    text = episode.name,
+                    style = ArvioSkin.typography.cardTitle.copy(
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                val metadata = listOfNotNull(
+                    episodeAirDateLabel,
+                    episode.runtime.takeIf { it > 0 }?.let { "${it}m" }
+                ).joinToString(" · ")
+                if (metadata.isNotEmpty()) {
+                    Text(
+                        text = metadata,
+                        style = ArvioSkin.typography.caption.copy(fontSize = 10.sp, lineHeight = 14.sp),
+                        color = if (isEpisodeUnaired) Color(0xFFBDEBFF) else Color.White.copy(alpha = 0.7f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                Text(
+                    text = previewText,
+                    style = ArvioSkin.typography.caption.copy(
+                        fontSize = 10.sp,
+                        lineHeight = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    color = Color.White.copy(alpha = 0.92f),
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            if (
+                !episode.isWatched &&
+                playbackProgress != null &&
+                playbackProgress.percent in 1 until Constants.WATCHED_THRESHOLD
+            ) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp, vertical = 7.dp)
+                        .height(4.dp)
+                        .background(Color.White.copy(alpha = 0.3f), RoundedCornerShape(2.dp))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(playbackProgress.percent / 100f)
+                            .height(4.dp)
+                            .background(Pink, RoundedCornerShape(2.dp))
+                    )
+                }
+            }
+
+        }
+    }
+}
+
+private fun formatEpisodeAirDateLabel(rawDate: String): String? {
+    val value = rawDate.trim()
+    if (value.isEmpty()) return null
+    return try {
+        val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        parser.isLenient = false
+        val date = parser.parse(value) ?: return value
+        SimpleDateFormat("d MMM yyyy", Locale.US).format(date)
+    } catch (_: Exception) {
+        value
+    }
+}
+
+private fun isFutureEpisodeAirDate(rawDate: String): Boolean {
+    val value = rawDate.trim()
+    if (value.isEmpty()) return false
+    return try {
+        val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        parser.isLenient = false
+        val date = parser.parse(value) ?: return false
+        date.after(Date())
+    } catch (_: Exception) {
+        false
+    }
+}
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+internal fun SeasonButton(
+    season: Int,
+    isSelected: Boolean,
+    isFocused: Boolean,
+    watchedCount: Int = 0,
+    totalCount: Int = 0,
+    onClick: () -> Unit = {},
+    onLongClick: (() -> Unit)? = null
+) {
+    val shape = RoundedCornerShape(6.dp)
+    val targetBackgroundColor = when {
+        isFocused -> Color.White
+        else -> Color.Transparent
+    }
+    val targetTextColor = when {
+        isFocused -> Color.Black
+        isSelected -> Color.White
+        else -> Color.White.copy(alpha = 0.6f)
+    }
+
+    val isFullyWatched = totalCount > 0 && watchedCount >= totalCount
+
+    val selectSeasonLabel = stringResource(R.string.details_cd_select_season, season)
+    val seasonOptionsLabel = stringResource(R.string.details_cd_season_options)
+    val clickModifier = if (onLongClick != null) {
+        @OptIn(ExperimentalFoundationApi::class)
+        Modifier.combinedClickable(
+            onClick = onClick,
+            onLongClick = onLongClick,
+            role = Role.Button,
+            onClickLabel = selectSeasonLabel,
+            onLongClickLabel = seasonOptionsLabel
+        )
+    } else {
+        Modifier.clickable(onClick = onClick)
+    }
+
+    Column(
+        modifier = clickModifier
+            .semantics { selected = isSelected }
+            .testTag("season_$season")
+            .background(targetBackgroundColor, shape)
+            .defaultMinSize(minWidth = 96.dp)
+            .width(androidx.compose.foundation.layout.IntrinsicSize.Max)
+            .padding(horizontal = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier.heightIn(min = if (LocalDeviceType.current.isTouchDevice()) 48.dp else 36.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+        Text(
+            text = "${stringResource(R.string.season_label)} $season",
+            style = ArvioSkin.typography.button.copy(
+                fontSize = 13.sp,
+                fontWeight = FontWeight.SemiBold
+            ),
+            color = targetTextColor
+        )
+
+        if (isFullyWatched) {
+            Box(
+                modifier = Modifier
+                    .size(14.dp)
+                    .background(
+                        color = ArvioSkin.colors.watchedGreen.copy(alpha = 0.2f),
+                        shape = CircleShape
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = ArvioSkin.colors.watchedGreen,
+                        shape = CircleShape
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = null,
+                    tint = ArvioSkin.colors.watchedGreen,
+                    modifier = Modifier.size(8.dp)
+                )
+            }
+        }
+        }
+        Box(Modifier.fillMaxWidth().height(2.dp).background(if (isSelected) targetTextColor else Color.Transparent))
+    }
+}
+
+
+
+
+
+
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun MetaPill(text: String) {
+    Box(
+        modifier = Modifier
+            .background(Color.White.copy(alpha = 0.05f), RoundedCornerShape(6.dp))
+            .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(6.dp))
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+    ) {
+        Text(
+            text = text.uppercase(),
+            style = ArflixTypography.label,
+            color = TextSecondary
+        )
+    }
+}
+
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun OngoingBadge() {
+    // Cyan/teal color like webapp
+    val cyanColor = Color(0xFF22D3EE)
+
+    Row(
+        modifier = Modifier
+            .background(cyanColor.copy(alpha = 0.15f), RoundedCornerShape(6.dp))
+            .border(1.dp, cyanColor.copy(alpha = 0.3f), RoundedCornerShape(6.dp))
+            .padding(horizontal = 10.dp, vertical = 5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Schedule,
+            contentDescription = null,
+            tint = cyanColor,
+            modifier = Modifier.size(14.dp)
+        )
+        Text(
+            text = stringResource(R.string.ongoing).uppercase(),
+            style = ArflixTypography.label,
+            color = cyanColor
+        )
+    }
+}
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun GenreBadge(genre: String) {
+    Box(
+        modifier = Modifier
+            .background(Pink.copy(alpha = 0.15f), RoundedCornerShape(6.dp))
+            .border(1.dp, Pink.copy(alpha = 0.3f), RoundedCornerShape(6.dp))
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+    ) {
+        Text(
+            text = formatGenreName(genre),
+            style = ArflixTypography.label,
+            color = Pink
+        )
+    }
+}
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun LanguageBadge(language: String) {
+    // Purple color for language
+    val purpleColor = Purple
+
+    Box(
+        modifier = Modifier
+            .background(purpleColor.copy(alpha = 0.15f), RoundedCornerShape(6.dp))
+            .border(1.dp, purpleColor.copy(alpha = 0.3f), RoundedCornerShape(6.dp))
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+    ) {
+        Text(
+            text = language.uppercase(),
+            style = ArflixTypography.label,
+            color = purpleColor
+        )
+    }
+}
+
+
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+private fun StatusBadge(status: String) {
+    // Different colors based on status
+    val (bgColor, textColor) = when {
+        status.contains("Return", ignoreCase = true) -> Pair(Color(0xFF22D3EE), Color(0xFF22D3EE)) // Cyan for ongoing
+        status.contains("Ended", ignoreCase = true) -> Pair(Color(0xFF6B7280), Color(0xFF6B7280)) // Gray for ended
+        status.contains("Cancel", ignoreCase = true) -> Pair(Color(0xFFEF4444), Color(0xFFEF4444)) // Red for canceled
+        else -> Pair(Color(0xFF6B7280), Color(0xFF6B7280))
+    }
+
+    Box(
+        modifier = Modifier
+            .background(bgColor.copy(alpha = 0.15f), RoundedCornerShape(6.dp))
+            .border(1.dp, bgColor.copy(alpha = 0.3f), RoundedCornerShape(6.dp))
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+    ) {
+        Text(
+            text = status.uppercase(),
+            style = ArflixTypography.label,
+            color = textColor
+        )
+    }
+}

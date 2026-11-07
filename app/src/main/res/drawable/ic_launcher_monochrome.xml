@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pascal The Popcorn: single-colour popcorn bucket for Android themed icons (108dp adaptive canvas). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- kernels -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M41,42a6,6 0,1 1,12 0a6,6 0,1 1,-12 0z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M49,37a6,6 0,1 1,12 0a6,6 0,1 1,-12 0z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,42a6,6 0,1 1,12 0a6,6 0,1 1,-12 0z"/>
+    <!-- rim and striped body (stripes as cut-outs) -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M36,45h36v4h-36z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M37,50h6.6l1.5,22h-4.4z M50.8,50h6.4v22h-6.4z M64.4,50h6.6l-3.7,22h-4.4z"/>
+</vector>

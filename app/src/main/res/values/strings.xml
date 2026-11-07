@@ -1,0 +1,1030 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_preference_save_failed">Could not save this setting. Please try again.</string>
+    <string name="stream_source_cached">Cached</string>
+    <string name="library_sort_release_newest">Release date: newest first</string>
+    <string name="library_sort_release_oldest">Release date: oldest first</string>
+    <string name="app_name">Pascal The Popcorn</string>
+    <string name="about_credits">About &amp; Credits</string>
+    <string name="about_credits_description">Metadata attribution and copyright information</string>
+    <string name="tmdb_attribution" translatable="false">This product uses the TMDB API but is not endorsed or certified by TMDB.</string>
+    <string name="authorized_sources_notice">Pascal The Popcorn is a media hub for sources you configure. A catalog entry does not grant viewing rights. Connect only services and media you are authorized to use.</string>
+    <string name="credits_and_copyright">Credits &amp; copyright reports</string>
+    <string name="now_playing">NOW PLAYING</string>
+
+    <!-- Navigation -->
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="settings">Settings</string>
+    <string name="my_watchlist">My Watchlist</string>
+
+    <!-- Content types -->
+    <string name="general">General</string>
+    <string name="movies">Movies</string>
+    <string name="movie">Movie</string>
+    <string name="tv_shows">TV Shows</string>
+    <string name="shows">Shows</string>
+    <string name="series">Series</string>
+    <string name="all_genres">All Genres</string>
+    <string name="any_language">Any Language</string>
+
+    <!-- Home screen labels -->
+    <string name="continue_watching">Continue Watching</string>
+
+    <!-- Settings sections -->
+    <string name="app_language">App Language</string>
+    <string name="language_and_subtitles">Language &amp; Subtitles</string>
+    <string name="language_and_audio">Language &amp; Audio</string>
+    <string name="audio">Audio</string>
+    <string name="playback">Playback</string>
+    <string name="interface_label">Interface</string>
+    <string name="network">Network</string>
+    <string name="catalogs">Catalogs</string>
+    <string name="accounts">Accounts</string>
+
+    <!-- Media detail -->
+    <string name="sources">Sources</string>
+    <string name="details">Details</string>
+    <string name="play">Play</string>
+    <string name="seasons">Seasons</string>
+    <string name="season_label">Season</string>
+    <string name="season">Season %d</string>
+    <string name="episodes">Episodes</string>
+    <string name="episode">Episode %d</string>
+    <string name="cast">Cast</string>
+    <string name="reviews">Reviews</string>
+    <string name="more_like_this">More Like This</string>
+    <string name="budget">Budget</string>
+    <string name="ongoing">Ongoing</string>
+
+    <!-- Watchlist -->
+    <string name="add_to_watchlist">Add to Watchlist</string>
+    <string name="remove_from_watchlist">Remove from Watchlist</string>
+    <string name="empty_watchlist">Your watchlist is empty</string>
+    <string name="add_later">Add movies and shows to watch later</string>
+
+    <!-- Subtitles / audio -->
+    <string name="subtitles">Subtitles</string>
+    <string name="default_subtitle">Default Subtitle</string>
+    <string name="secondary_subtitle">Secondary Subtitle Language</string>
+    <string name="secondary_subtitle_desc">Fallback subtitle language when primary is unavailable</string>
+    <string name="filter_subtitles">Filter Subtitles by Language</string>
+    <string name="filter_subtitles_desc">Show only subtitles in your preferred language</string>
+    <string name="use_forced_subtitles">Forced Subtitles</string>
+    <string name="use_forced_subtitles_desc">Prefer forced subtitles when the audio matches the subtitle language; if there is none, select nothing</string>
+
+    <!-- Playback -->
+    <string name="next_episode">Next Episode</string>
+    <string name="next">Next</string>
+    <string name="live">Live</string>
+    <string name="now">Now</string>
+    <string name="later">Later</string>
+    <string name="ends_at">Ends at</string>
+
+    <!-- Sources -->
+    <string name="finding_sources">Finding sources…</string>
+    <string name="available_sources">Available Sources</string>
+    <string name="sources_available">sources available</string>
+
+    <!-- Actions -->
+    <string name="close">Close</string>
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="retry">Retry</string>
+    <string name="search_discover_load_failed">Could not load titles</string>
+    <string name="partner_link_loading">Opening title details…</string>
+    <string name="partner_link_failed">Could not find or load this title. Try again or open another link.</string>
+    <string name="search_discover_load_more">Load more</string>
+    <string name="delete">Delete</string>
+    <string name="add">Add</string>
+    <string name="refresh">Refresh</string>
+    <string name="selected">selected</string>
+    <string name="sign_in">Sign In</string>
+    <string name="log_out">Log Out</string>
+    <string name="watched">Watched</string>
+    <string name="unwatched">Unwatched</string>
+
+    <!-- Toggles -->
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="auto">Auto</string>
+
+    <!-- State -->
+    <string name="loading">Loading…</string>
+    <string name="loading_label">Loading</string>
+    <string name="empty">Empty</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="no_results">No results found</string>
+    <string name="no_results_for">No results found for</string>
+    <string name="error_loading">Error loading content</string>
+
+    <!-- Settings titles -->
+    <string name="content_language">Content Language</string>
+    <string name="default_audio">Default Audio</string>
+    <string name="subtitle_size">Subtitle Size</string>
+    <string name="subtitle_color">Subtitle Color</string>
+    <string name="subtitle_style">Subtitle Style</string>
+    <string name="subtitle_font">Subtitle Font</string>
+    <string name="subtitle_offset">Subtitle Position</string>
+    <string name="frame_rate">Match Frame Rate</string>
+    <string name="ui_mode">UI Mode</string>
+    <string name="oled_black_background">OLED Black Background</string>
+    <string name="clock_format">Clock Format</string>
+    <string name="show_loading_stats">Show Loading Stats</string>
+    <string name="volume_boost">Volume Boost</string>
+    <string name="dns_provider">DNS Provider</string>
+    <string name="custom_user_agent">Custom User-Agent</string>
+    <string name="custom_user_agent_desc">Leave blank to use Pascal The Popcorn defaults. Custom values apply when a source does not provide its own User-Agent.</string>
+    <string name="add_catalog">Add Catalog</string>
+    <string name="rename_catalog">Rename Catalog</string>
+    <string name="addons">Addons</string>
+    <string name="services">Services</string>
+    <string name="genres">Genres</string>
+    <string name="decades">Decades</string>
+    <string name="franchises">Franchises</string>
+    <string name="networks">Networks</string>
+    <string name="featured">Featured</string>
+    <string name="add_addon">Add Addon</string>
+    <string name="app_version">App Version</string>
+
+    <!-- Settings subtitles / descriptions -->
+    <string name="app_language_desc">App text, titles, descriptions and metadata</string>
+    <string name="subtitle_desc">Auto-select subtitle language</string>
+    <string name="audio_desc">Preferred audio track</string>
+    <string name="subtitle_size_desc">Text size for subtitles</string>
+    <string name="subtitle_color_desc">Text color for subtitles</string>
+    <string name="subtitle_style_desc">Bold, Normal, or Background style for subtitles</string>
+    <string name="subtitle_font_desc">Typeface used during playback. Bundled fonts override embedded ASS/SSA fonts so your choice is always visible.</string>
+    <string name="subtitle_offset_desc">Vertical position for subtitles</string>
+    <string name="subtitle_stylized">Stylized Subtitles</string>
+    <string name="subtitle_stylized_desc">Honor embedded ASS/SSA styles when using the System font. Bundled font choices override embedded styling.</string>
+    <string name="frame_rate_desc">Off, Seamless, or Always</string>
+    <string name="ui_mode_desc">Force TV, Tablet, or Phone</string>
+    <string name="oled_black_background_desc">Use pure black app backgrounds for OLED screens</string>
+    <string name="clock_format_desc">Choose 12-hour or 24-hour time</string>
+    <string name="spoiler_blur">Spoiler Blur</string>
+    <string name="spoiler_blur_desc">Blur unwatched episode cards to avoid spoilers</string>
+    <string name="anime_episode_structuring">Anime Episode Ordering</string>
+    <string name="anime_episode_structuring_desc">Switch between Broadcast Order (cours) and Standard (TMDB) seasons</string>
+    <string name="anime_structuring_broadcast">Broadcast Order</string>
+    <string name="anime_structuring_standard">Standard (TMDB)</string>
+    <string name="anime_structuring_japanese">Broadcast Order</string>
+    <string name="anime_structuring_western">Standard (TMDB)</string>
+    <string name="anime_structuring_switch_to_western">Switch to Standard (TMDB)</string>
+    <string name="anime_structuring_switch_to_japanese">Switch to Broadcast Order</string>
+    <string name="anime_structuring_toggled_japanese">Switched to Broadcast Order</string>
+    <string name="anime_structuring_toggled_western">Switched to Standard (TMDB)</string>
+    <string name="accent_color">Accent Color</string>
+    <string name="accent_color_desc">Choose the accent color for focus rings, buttons, and selected items</string>
+    <string name="show_loading_stats_desc">Display stream resolution progress</string>
+    <string name="volume_boost_desc">Amplify quiet sources (via system LoudnessEnhancer)</string>
+    <string name="dns_desc">Resolve API and stream requests</string>
+    <string name="add_catalog_desc">Import a TMDB catalog URL</string>
+
+    <!-- Player / audio -->
+    <string name="audio_track">Audio Track</string>
+    <string name="no_audio_tracks">No audio tracks available</string>
+    <string name="press_back_to_close">Press BACK to close</string>
+
+    <!-- Content labels -->
+    <string name="in_cinema">In Cinema</string>
+
+    <!-- Settings labels -->
+    <string name="enter_code">Enter code:</string>
+    <string name="syncing">Syncing</string>
+    <string name="sync">Sync</string>
+    <string name="connected">Connected</string>
+    <string name="connect">Connect</string>
+    <string name="whos_watching">Who\'s watching?</string>
+    <string name="manage_profiles">Manage Profiles</string>
+    <string name="add_profile">Add Profile</string>
+    <string name="loading_profile">Loading profile…</string>
+    <string name="enter_pin_to_unlock">Enter PIN to unlock</string>
+    <string name="set_profile_pin">Set Profile PIN</string>
+    <string name="done">Done</string>
+    <string name="save">Save</string>
+    <string name="connect_to_cloud">Connect to Pascal The Popcorn Cloud</string>
+
+    <!-- In-player subtitle settings panel -->
+    <string name="subtitle_settings_title">Subtitle Settings</string>
+    <string name="subtitle_delay">Delay</string>
+    <string name="subtitle_size_label">Size</string>
+    <string name="subtitle_vertical_position">Vertical Position</string>
+
+    <string name="subtitle_preload_title">Preload Subtitles</string>
+    <string name="subtitle_preload_desc">Wait for subtitles before starting the video so switching them is instant</string>
+    <string name="dv_compat_title">Dolby Vision Compatibility</string>
+    <string name="dv_compat_desc">Play Dolby Vision releases as HDR10 when this device can\'t decode them</string>
+    <string name="smooth_scrolling">Smoother Scrolling</string>
+    <string name="smooth_scrolling_desc">Use premium smooth transitions when navigating poster rows</string>
+
+    <string name="cd_refresh">Refresh Repository</string>
+    <string name="cd_remove">Remove Repository</string>
+    <string name="error_unknown">Unknown error</string>
+
+
+
+
+
+
+
+    <!-- Extracted from code: Settings screen -->
+    <string name="settings_app_version_label">Pascal The Popcorn V%1$s</string>
+    <string name="settings_label_url">URL</string>
+    <string name="settings_label_server_url">Server URL</string>
+    <string name="settings_label_username">Username</string>
+    <string name="settings_catalog_pack_import_title">Import Catalog Pack</string>
+    <string name="settings_catalog_pack_import_desc">Import a catalog pack from a URL</string>
+    <string name="settings_catalog_pack_import_badge">IMPORT</string>
+    <string name="settings_catalog_pack_url_label">Catalog pack URL</string>
+    <string name="settings_catalog_pack_loading">Loading catalog pack details...</string>
+    <string name="settings_catalog_pack_import_failed">Import Failed</string>
+    <string name="settings_catalog_pack_author">Author: %1$s • v%2$s</string>
+    <string name="settings_catalog_pack_included">Catalogs included (%1$d):</string>
+    <string name="settings_catalog_pack_install">Install Pack</string>
+    <string name="settings_catalog_pack_delete_title">Delete Catalog Pack</string>
+    <string name="settings_catalog_pack_delete_message">Do you want to delete the pack \"%1$s\"? This will remove all catalogs that were imported with this pack.</string>
+    <string name="settings_catalog_pack_delete_confirm">Delete Pack</string>
+    <string name="settings_cd_unpack_catalog_row">Unpack catalog row</string>
+    <string name="settings_activation_visit_instruction">Visit %1$s on your phone or computer and enter this code:</string>
+    <string name="settings_input_hint_enter">Enter %1$s...</string>
+    <string name="settings_ph_provider_host">https://provider.host:port</string>
+    <string name="settings_ph_plain_m3u">Leave empty for plain M3U</string>
+    <string name="settings_save_playlist">Save Playlist</string>
+    <string name="settings_source_m3u">M3U Playlist</string>
+    <string name="settings_save_portal">Save Portal</string>
+    <string name="settings_label_title">Title</string>
+    <string name="settings_add_quality_filter">Add Quality Filter</string>
+    <string name="settings_edit_quality_filter">Edit Quality Filter</string>
+    <string name="settings_quality_filters_subtitle">Device-local filters. Matching streams are excluded.</string>
+    <string name="settings_no_filters_yet">No filters configured yet.</string>
+    <string name="settings_unnamed_device">Unnamed Device</string>
+    <string name="settings_add_filter">Add Filter</string>
+    <string name="settings_label_device_preset_name">Device / Preset Name</string>
+    <string name="settings_label_regex_pattern">Regex Pattern</string>
+    <string name="settings_label_email">Email</string>
+    <string name="settings_label_password">Password</string>
+    <string name="settings_btn_create">Create</string>
+    <string name="settings_pair_signin_link_device">Sign in with your email and password to link this device.</string>
+    <string name="settings_pair_scan_qr_link_tv">Scan this QR code to sign in and link this TV.</string>
+    <string name="settings_pair_code">Code: %1$s</string>
+    <string name="settings_waiting_for_approval">Waiting for approval...</string>
+    <string name="settings_use_email_password">Use Email &amp; Password</string>
+    <string name="settings_use_email_password_short">Use Email/Password</string>
+    <string name="settings_activation_instruction_tv">Scan the QR code with your phone. It already contains the code. Or open %1$s and enter it.</string>
+    <string name="settings_activation_instruction_touch">Tap the button and sign in. You don\'t have to enter the code. This window finishes on its own.</string>
+    <string name="settings_waiting_for_authorization">Waiting for authorization</string>
+    <string name="settings_open_auth_page">Open auth page</string>
+    <string name="settings_copy_code">Copy code</string>
+    <string name="settings_cat_playback_controls">Playback &amp; Controls</string>
+    <string name="settings_cat_audio_subtitles">Audio &amp; Subtitles</string>
+    <string name="settings_section_categories">CATEGORIES</string>
+    <string name="settings_section_languages">LANGUAGES</string>
+    <string name="settings_section_user_account">USER INFO &amp; ACCOUNT</string>
+    <string name="settings_force_sync">Force Sync</string>
+    <string name="settings_disconnect">Disconnect</string>
+    <string name="settings_open">Open</string>
+    <string name="settings_section_playback">PLAYBACK</string>
+    <string name="settings_section_controls">CONTROLS</string>
+    <string name="settings_section_subtitles">SUBTITLES</string>
+    <string name="settings_section_audio">AUDIO</string>
+    <string name="settings_section_appearance">APPEARANCE</string>
+    <string name="settings_overview">Overview</string>
+    <string name="settings_focused_setting">Focused setting</string>
+    <string name="settings_section_label">Section</string>
+    <string name="settings_status">Status</string>
+    <string name="settings_group_profile">Profile</string>
+    <string name="settings_group_system">System</string>
+    <string name="settings_desc_language">App text and preferred audio track.</string>
+    <string name="settings_desc_subtitles">Subtitle language defaults, display style and filtering.</string>
+    <string name="settings_desc_playback">Frame-rate matching, Dolby Vision compatibility and audio boost.</string>
+    <string name="settings_desc_appearance">Layout, OLED mode, focus styling and hero metadata.</string>
+    <string name="settings_desc_network">DNS and loading diagnostic preferences.</string>
+    <string name="settings_desc_catalogs">Discover, rename, order and remove home rows and list catalogs.</string>
+    <string name="settings_desc_stremio">Manage third-party addons used for catalog and source discovery.</string>
+    <string name="settings_desc_default">Configure Pascal The Popcorn for this profile.</string>
+    <string name="settings_pill_app">App %1$s</string>
+    <string name="settings_pill_audio">Audio %1$s</string>
+    <string name="settings_pill_default">Default %1$s</string>
+    <string name="settings_pill_size">Size %1$s</string>
+    <string name="settings_inline_on">on</string>
+    <string name="settings_inline_off">off</string>
+    <string name="settings_pill_oled">OLED %1$s</string>
+    <string name="settings_pill_skip_on">Skip on</string>
+    <string name="settings_pill_picker_on">Picker on</string>
+    <string name="settings_pill_dns">DNS %1$s</string>
+    <string name="settings_pill_stats_on">Stats on</string>
+    <string name="settings_pill_stats_off">Stats off</string>
+    <string name="settings_ready">Ready</string>
+    <string name="settings_pill_catalogs">%1$d catalogs</string>
+    <string name="settings_pill_installed">%1$d installed</string>
+    <!-- Tracking Integrations sub-page -->
+    <string name="settings_tracking_integrations">Tracking Integrations</string>
+    <string name="settings_connected_as">Connected as %1$s</string>
+    <string name="settings_tracking_movies">Movies synced</string>
+    <string name="settings_tracking_episodes">Episodes synced</string>
+    <string name="settings_tracking_provider">Active provider</string>
+    <string name="settings_tracking_last_sync">Last sync</string>
+    <string name="settings_coming_soon">Coming Soon</string>
+    <string name="settings_connecting">Connecting…</string>
+    <string name="settings_tracking_section_stats">SYNC STATS</string>
+    <string name="settings_tracking_section_services">SERVICES</string>
+    <string name="settings_tracking_none">None</string>
+    <string name="settings_data_routing">DATA ROUTING</string>
+    <string name="settings_routing_watchlist_source">Watchlist source</string>
+    <string name="settings_routing_watchlist_source_desc">Choose which connected service supplies your watchlist.</string>
+    <string name="settings_routing_continue_source">Continue Watching source</string>
+    <string name="settings_routing_continue_source_desc">Choose where playback progress and Up Next are loaded from.</string>
+    <string name="settings_routing_watched_source">Watched history source</string>
+    <string name="settings_routing_watched_source_desc">Choose which connected service supplies watched badges.</string>
+    <string name="settings_tracking_mode_automatic">Automatic</string>
+
+    <string name="settings_fact_app_language">App language</string>
+    <string name="settings_fact_default">Default</string>
+    <string name="settings_fact_secondary">Secondary</string>
+    <string name="settings_fact_style">Style</string>
+    <string name="settings_enabled">Enabled</string>
+    <string name="settings_fact_frame_rate">Frame rate</string>
+    <string name="settings_fact_oled">OLED</string>
+    <string name="settings_fact_accent_color">Accent color</string>
+    <string name="settings_fact_startup">Startup</string>
+    <string name="settings_skip_picker">Skip picker</string>
+    <string name="settings_show_picker">Show picker</string>
+    <string name="settings_fact_dns">DNS</string>
+    <string name="settings_fact_loading_stats">Loading stats</string>
+    <string name="settings_fact_user_agent">User-Agent</string>
+    <string name="settings_fact_discovery">Discovery</string>
+    <string name="settings_searching">Searching</string>
+    <string name="settings_fact_scope">Scope</string>
+    <string name="settings_current_profile">Current profile</string>
+    <string name="settings_fact_cloud">Cloud</string>
+    <string name="settings_disconnected">Disconnected</string>
+    <string name="settings_help_choose_title">Choose a setting</string>
+    <string name="settings_help_choose_desc">Move into the center panel to edit the selected section.</string>
+    <string name="settings_help_app_language_desc">Changes the interface and metadata language used by Pascal The Popcorn.</string>
+    <string name="settings_help_default_audio_desc">Preferred audio language when multiple tracks exist.</string>
+    <string name="settings_help_default_subtitle_desc">Preferred subtitle language when playback starts.</string>
+    <string name="settings_help_secondary_subtitle">Secondary subtitle</string>
+    <string name="settings_help_secondary_subtitle_desc">Optional second subtitle preference where available.</string>
+    <string name="settings_help_subtitle_pref">Subtitle preference</string>
+    <string name="settings_help_subtitle_pref_desc">Adjust subtitle size, color, position, style and filtering.</string>
+    <string name="settings_help_volume_boost_desc">Boosts playback audio output when enabled.</string>
+    <string name="settings_help_playback_desc">Tune source quality, frame-rate matching and playback behavior.</string>
+    <string name="settings_help_interface_desc">Control layout, OLED mode, clock and focus styling.</string>
+    <string name="settings_help_discover_catalog">Discover catalog</string>
+    <string name="settings_help_discover_catalog_desc">Search public list catalogs or add a direct URL.</string>
+    <string name="settings_help_catalog_row">Catalog row</string>
+    <string name="settings_help_catalog_row_desc">Rename, reorder, change layout or remove this catalog.</string>
+    <string name="settings_help_addon">Addon</string>
+    <string name="settings_help_addon_desc">Enable, disable, add or remove third-party addon sources.</string>
+    <string name="settings_help_cloud_account_desc">Connect or disconnect Pascal The Popcorn cloud sync.</string>
+    <string name="settings_help_force_sync_desc">Push/pull the latest synced profile data now.</string>
+    <string name="settings_help_account_data">Account data</string>
+    <string name="settings_help_account_data_desc">Open account and data deletion information.</string>
+    <string name="settings_help_setting">Setting</string>
+    <string name="settings_help_setting_desc">Use OK to change this option.</string>
+    <string name="settings_section_actions">ACTIONS</string>
+    <string name="settings_cd_drag_reorder">Drag to reorder</string>
+    <string name="settings_badge_add">ADD</string>
+    <string name="settings_n_selected">%1$d selected</string>
+    <string name="settings_search_lists">Search Lists</string>
+    <string name="settings_paste_url">Paste URL</string>
+    <string name="settings_add_url">Add URL</string>
+    <string name="settings_searching_both_sources">Searching both sources</string>
+    <string name="settings_lists_found">%1$d lists found</string>
+    <string name="settings_tap_field_to_edit">Tap a field to edit</string>
+    <string name="settings_press_select_to_edit">Press Select on a field to edit</string>
+    <string name="settings_searching_lists">Searching lists</string>
+    <string name="settings_start_with_search">Start with a search</string>
+    <string name="settings_search_examples">Try top trending anime, best horror, Marvel chronological, or 2025 movies.</string>
+    <string name="settings_paste_catalog_url">Paste catalog URL</string>
+    <string name="settings_use_search">Use Search</string>
+    <string name="settings_use_url">Use URL</string>
+    <string name="settings_by">by %1$s</string>
+    <string name="settings_items_count">%1$s items</string>
+    <string name="settings_likes_count">%1$s likes</string>
+    <string name="settings_updated_meta">Updated %1$s</string>
+    <string name="settings_added">Added</string>
+    <string name="settings_source_builtin">Built-in</string>
+    <string name="settings_source_addon">Addon</string>
+    <string name="settings_section_add_catalog">ADD CATALOG</string>
+    <string name="settings_section_my_catalogs">MY CATALOGS</string>
+    <string name="settings_title_builtin">%1$s (Built-in)</string>
+    <string name="settings_preinstalled_catalog">Preinstalled catalog</string>
+    <string name="settings_from_source">From %1$s</string>
+    <string name="settings_custom_catalog">Custom catalog</string>
+    <string name="refresh_addons">Refresh Addons</string>
+    <string name="settings_refresh_addons_desc">Pull latest addon changes for current profile</string>
+    <string name="settings_pulling_latest_addon">Pulling latest addons</string>
+    <string name="settings_section_add_addon">ADD ADDON</string>
+    <string name="settings_install_custom_addon">Install a custom Stremio addon by URL</string>
+    <string name="settings_section_my_addons">MY ADDONS</string>
+    <string name="settings_no_addons_installed">No addons installed</string>
+    <string name="settings_cd_move_addon_up">Move addon up</string>
+    <string name="settings_cd_move_addon_down">Move addon down</string>
+    <string name="settings_cd_delete_addon">Delete addon</string>
+    <string name="settings_section_stremio_addons">STREMIO ADDONS</string>
+    <string name="settings_status_installed">Installed</string>
+    <string name="settings_disabled">Disabled</string>
+    <string name="settings_arvio_cloud">Pascal The Popcorn Cloud</string>
+    <string name="settings_badge_open">OPEN</string>
+    <string name="settings_sync_local_cloud_now">Syncing local and cloud state now</string>
+    <string name="settings_upload_restore_now">Upload local state, then restore from cloud now</string>
+    <string name="settings_signin_to_force_sync">Sign in to Pascal The Popcorn Cloud to force sync</string>
+    <string name="settings_badge_syncing">SYNCING</string>
+    <string name="settings_badge_sync">SYNC</string>
+    <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_privacy_policy_desc">Read how Pascal The Popcorn processes data, retention policies, data providers, and your privacy rights</string>
+    <string name="settings_account_data_deletion">Delete cloud account and data</string>
+    <string name="settings_account_data_deletion_desc">Open the secure Pascal The Popcorn Cloud account deletion page</string>
+    <string name="settings_privacy_data_deletion">Privacy and data deletion</string>
+    <string name="settings_privacy_data_deletion_desc">Open privacy policy and cloud account deletion page</string>
+    <string name="settings_privacy_data_title">Privacy &amp; Data</string>
+    <string name="settings_privacy_data_sub_desc">Diagnostics sharing, privacy policy, and legal documentation</string>
+    <string name="settings_stats_addons">%1$d Stremio Addons</string>
+    <string name="settings_stats_catalogs">%1$d Configured Catalogs</string>
+    <string name="settings_force_push">Force Cloud Push</string>
+    <string name="settings_force_push_desc">Upload local settings, addons, and watchlist to Pascal The Popcorn Cloud</string>
+    <string name="settings_force_pull">Force Cloud Pull</string>
+    <string name="settings_force_pull_desc">Overwrite local data with the latest snapshot from Pascal The Popcorn Cloud</string>
+    <string name="settings_section_sync_stats">SYNC STATISTICS</string>
+    <string name="settings_section_cloud_actions">MANUAL CLOUD OPERATIONS</string>
+    <string name="settings_section_account_security">ACCOUNT SECURITY &amp; DELETION</string>
+    <string name="settings_sign_out">Sign Out</string>
+    <string name="settings_sign_out_desc">Disconnect this device from your Pascal The Popcorn Cloud account</string>
+    <string name="settings_action_push">Push</string>
+    <string name="settings_action_pull">Pull</string>
+    <string name="settings_go_to">Go to: %1$s</string>
+    <string name="settings_cd_paste">Paste</string>
+    <string name="settings_paste_from_clipboard">Paste from Clipboard</string>
+    <string name="settings_hint_enter_dpad">Press Enter to select • Navigate with D-pad</string>
+    <string name="settings_modal_hint_touch">Tap a field to edit, then tap Confirm</string>
+    <string name="settings_modal_hint_tv">Use D-pad to move, press OK to edit a field</string>
+    <string name="settings_field_fallback">field</string>
+    <string name="settings_paste_into">Paste into %1$s</string>
+    <string name="settings_modal_footer_touch">Tap a field to edit, tap Confirm when done</string>
+    <string name="settings_modal_footer_tv">OK: edit/select • Back: close keyboard first</string>
+    <string name="settings_press_enter_to_select">Press Enter to select</string>
+    <string name="settings_change_ui_mode">Change UI Mode</string>
+    <string name="settings_mode_tv">TV</string>
+    <string name="settings_mode_tablet">Tablet</string>
+    <string name="settings_mode_phone">Phone</string>
+    <string name="settings_change_ui_mode_confirm">Are you sure you want to change the UI mode to %1$s?</string>
+    <string name="settings_ua_default">Default</string>
+    <string name="settings_enter_field">Enter %1$s...</string>
+    <string name="settings_clock_12h">12-hour</string>
+    <string name="settings_clock_24h">24-hour</string>
+    <string name="settings_ui_mode_tablet">Tablet</string>
+    <string name="settings_ui_mode_phone">Phone</string>
+    <string name="settings_dns_system">System DNS</string>
+    <!-- Avatar category headers (display-only; Map keys stay English) -->
+    <!-- Context menu hint -->
+    <string name="context_press_back_cancel">Press Back to cancel</string>
+
+
+
+    <!-- Extracted from code: Profile, Login and Collections -->
+    <string name="profile_enter_pin">Enter PIN</string>
+    <string name="profile_pin_entry_cd">PIN Entry</string>
+    <string name="profile_confirm_pin">Confirm PIN</string>
+    <string name="profile_pin_setup_hint">4-5 digits to lock this profile</string>
+    <string name="profile_pin_reenter">Re-enter PIN to confirm</string>
+    <string name="profile_clear">Clear</string>
+    <string name="profile_pin_invalid">PIN must be 4-5 digits</string>
+    <string name="profile_pin_mismatch">PINs do not match</string>
+    <string name="login_tagline_main">Your library, tuned for TV.</string>
+    <string name="login_tagline_sub">Keep your watchlist and history together.</string>
+    <string name="login_create_account">Create your account</string>
+    <string name="login_sign_in_continue">Sign in to continue</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_sign_up">Sign Up</string>
+    <string name="login_have_account">Already have an account? Sign In</string>
+    <string name="login_no_account">Don\'t have an account? Sign Up</string>
+    <string name="login_privacy_notice">Creating an account stores your email and the cloud data you choose to sync.</string>
+    <string name="login_read_privacy_policy">Read Privacy Policy</string>
+    <string name="category_empty">Nothing to show here yet.</string>
+
+    <!-- Extracted from code: Details, Home, Search and Player -->
+    <string name="details_toast_debrid_downloading">This debrid torrent is still being downloaded. Try another source or wait a bit.</string>
+    <string name="details_episode_code_short">S%1$d:E%2$d</string>
+    <string name="details_label_tv_series">TV Series</string>
+    <string name="details_btn_mark_watched">Mark Watched</string>
+    <string name="details_in_watchlist">In watchlist</string>
+    <string name="details_no_synopsis">No episode synopsis available.</string>
+    <string name="details_spoiler">Spoiler</string>
+    <string name="details_cd_select_season">Select season %1$d</string>
+    <string name="details_cd_season_options">Show season options</string>
+    <string name="home_cd_primary_provider">Primary streaming provider</string>
+    <string name="search_filter_all">All</string>
+    <string name="search_filter_anime">Anime</string>
+    <!-- Discover filter row (step 3): one chip per filter, its panel, and the values inside. -->
+    <string name="search_filter_genre">Genre</string>
+    <string name="search_filter_genres">Genres</string>
+    <string name="search_filter_sort">Sort</string>
+    <string name="search_filter_rating">Rating</string>
+    <string name="search_filter_year">Year</string>
+    <string name="search_filter_age">Age rating</string>
+    <string name="search_filter_language">Language</string>
+    <string name="search_filter_language_ja">Japanese</string>
+    <string name="search_filter_language_ko">Korean</string>
+    <string name="search_filter_language_hi">Hindi</string>
+    <string name="search_filter_hide_watched">Hide watched</string>
+    <string name="search_filter_any">Any</string>
+    <string name="search_filter_match_all">AND</string>
+    <string name="search_filter_match_any">OR</string>
+    <string name="search_filter_selected_count">%1$d selected</string>
+    <string name="search_filter_min_votes">Minimum votes</string>
+    <string name="search_filter_rating_from">Rating from</string>
+    <string name="search_filter_rating_to">Rating up to</string>
+    <string name="search_filter_rating_range">%1$s – %2$s</string>
+    <string name="search_filter_clear">Clear filters</string>
+    <string name="search_recent">Recent</string>
+    <string name="search_recent_clear">Clear</string>
+    <string name="search_clear_query">Clear search</string>
+    <string name="search_filter_panel_hint">The grid updates as you tick · BACK closes the panel</string>
+    <string name="search_filter_age_movies_only">Movies only — TMDB has no age filter for series</string>
+    <string name="search_filter_language_hint">The language a title was made in — not the language of the app</string>
+    <string name="search_filter_votes_hint">A high floor hides fresh releases, so the default stays Any</string>
+    <string name="search_filter_match_hint">AND: only titles carrying every genre · OR: titles with at least one</string>
+    <string name="search_filter_rating_from_short">From</string>
+    <string name="search_filter_rating_to_short">To</string>
+    <string name="search_filter_rating_hint">Whole points only — no 7.5 · the bar shows what is set</string>
+    <string name="search_filter_decade_caption">Decade</string>
+    <string name="search_filter_decade">%1$ss</string>
+    <string name="search_filter_decade_older">older</string>
+    <string name="search_filter_exact_year">Exact year</string>
+    <string name="search_filter_year_hint">The decade filters on its own · the exact year is one more press, not a must</string>
+    <string name="search_sort_popular">Popular</string>
+    <string name="search_sort_top_rated">Top rated</string>
+    <string name="search_sort_newest">Newest</string>
+    <string name="home_no_description">No description available.</string>
+    <string name="home_view_all">View all</string>
+    <string name="search_row_trending">Trending</string>
+    <string name="search_row_popular_this_year">Popular This Year</string>
+    <string name="search_row_top_rated">Top Rated</string>
+    <string name="search_row_new_releases">New Releases</string>
+    <string name="search_row_hidden_gems">Hidden Gems</string>
+    <string name="player_cd_rewind">Rewind 10s</string>
+    <string name="player_cd_forward">Forward 10s</string>
+    <string name="player_cd_pip">Picture in Picture</string>
+    <string name="player_cd_volume">Volume</string>
+    <string name="player_cd_aspect">Aspect: %1$s</string>
+    <string name="player_cd_pause">Pause</string>
+    <string name="player_muted">Muted</string>
+    <string name="player_cd_setup">Setup</string>
+    <string name="player_cd_error">Error</string>
+    <string name="player_addon_setup_required">Addon Setup Required</string>
+    <string name="player_addon_setup_hint">Configure and install video addons in Settings to stream content</string>
+    <string name="player_season_episode_short">S%1$d E%2$d</string>
+    <string name="player_playback_error">Playback Error</string>
+    <string name="player_error_generic">An unknown error occurred</string>
+    <string name="player_phase_loading_stream">Loading video stream…</string>
+    <string name="player_phase_loading_subtitles">Loading subtitles…</string>
+    <string name="player_phase_loading_subtitles_detail">Loading subtitles… (%1$s)</string>
+    <string name="player_phase_starting_playback">Starting playback…</string>
+    <string name="player_switch_notice">%1$s — switching…</string>
+    <string name="player_switch_notice_to">%1$s — switching to %2$s…</string>
+    <string name="player_fail_source_didnt_start">Source didn\'t start</string>
+    <string name="player_fail_startup_generic">Source failed during startup. Try another source.</string>
+    <string name="player_fail_buffering_slow">Buffering too slow</string>
+    <string name="player_fail_device_cannot_play">Video can\'t play on this device</string>
+    <string name="player_fail_source_too_slow">Source too slow to load</string>
+    <string name="player_fail_no_start_after_retries">Source did not start after retries. Try another source.</string>
+    <string name="player_fail_no_start_in_time">Source did not start in time. Try another source.</string>
+    <string name="player_fail_no_video_decode">No video — device can\'t decode this format</string>
+    <string name="player_fail_render_failed">Video could not render on this device. Try another source.</string>
+    <string name="player_err_codec_unsupported">Codec not supported by this device</string>
+    <string name="player_err_network_timeout">Network timeout while loading source</string>
+    <string name="player_err_http_rejected">Source server rejected playback request</string>
+    <string name="player_err_container_invalid">Source format is invalid or unsupported</string>
+    <string name="player_err_failed_to_play">Source failed to play</string>
+    <string name="player_err_try_another">%1$s. Try another source.</string>
+    <string name="player_err_startup_try_another">%1$s during startup. Trying another source may work.</string>
+    <string name="player_err_source_blocked">Source blocked</string>
+    <string name="player_err_source_removed">Source removed</string>
+    <string name="player_err_source_expired">Source expired</string>
+    <string name="player_err_source_rate_limited">Source rate-limited</string>
+    <string name="player_err_source_unavailable">Source unavailable</string>
+    <string name="player_err_source_status">Source error (%1$d)</string>
+    <string name="player_err_source_offline">Source offline</string>
+    <string name="player_err_format_unsupported">Video format not supported by this device</string>
+    <string name="player_err_unplayable_content">Unplayable content</string>
+    <string name="player_err_source_rejected">Source rejected request</string>
+    <string name="player_err_playback">Playback error</string>
+    <string name="player_aspect_zoom">Zoom</string>
+    <string name="player_aspect_fill">Fill</string>
+    <string name="player_aspect_fit">Fit</string>
+    <string name="player_subtitle_find_best_match">Find Best Match</string>
+    <string name="player_subtitle_scanning">Scanning…</string>
+    <string name="player_subtitle_best_match_hint">Auto-pick the best-synced subtitle</string>
+    <string name="player_subtitle_searching_match">Adjusting subtitles…</string>
+    <string name="player_skip_intro">Skip Intro</string>
+    <string name="player_skip_recap">Skip Recap</string>
+    <string name="player_skip_ending">Skip Ending</string>
+    <string name="player_skip">Skip</string>
+    <!-- Player: loading phases, playback errors and subtitle match results (PlayerViewModel) -->
+    <string name="player_phase_preparing_stream">Preparing stream</string>
+    <string name="player_phase_preparing_sources">Preparing sources</string>
+    <string name="player_phase_searching_sources">Searching %1$d/%2$d sources</string>
+    <string name="player_phase_found_sources">Found %1$d sources (%2$d/%3$d)</string>
+    <string name="player_error_magnet_unsupported">Selected source is P2P (magnet) and not supported. Choose an HTTP/debrid source.</string>
+    <string name="player_error_open_source_failed">Failed to open selected source. Try another one.</string>
+    <string name="player_error_no_streaming_addons">No streaming addons configured.\n\nGo to Settings → Addons to add a streaming addon, then come back and try again.</string>
+    <string name="player_error_no_streams_from_addons">No streams found for this content. The addons may not have sources for this title.</string>
+    <string name="player_error_resolve_stream_failed">Failed to resolve stream. Try another source.</string>
+    <string name="player_error_p2p_needs_torrserver">P2P stream requires TorrServer. Install TorrServer and set its URL in Settings &gt; Addons.</string>
+    <string name="player_match_source_builtin">Built-in</string>
+    <string name="player_match_finding">Finding best subtitle…</string>
+    <string name="player_match_finding_source">Finding best subtitle (%1$s)…</string>
+    <string name="player_match_waiting_for_speech">Searching for a match (%1$s) — waiting for speech…</string>
+    <string name="player_match_collecting_reference">Searching for a match (%1$s) — (%2$d)</string>
+    <string name="player_match_scanning_subtitles">Searching for a match (%1$s) — scanning subtitles… (%2$d)</string>
+    <string name="player_match_embedded">Matched: embedded %1$s subtitle (in sync)</string>
+    <string name="player_match_remembered">Matched: %1$s (remembered)</string>
+    <string name="player_match_remembered_offset">Matched: %1$s (remembered) (auto-offset %2$s)</string>
+    <string name="player_match_exact_release_name">Matched: %1$s (exact release name)</string>
+    <string name="player_match_sync_unverified">Selected %1$s (sync unverified)</string>
+    <!-- Reference taken from the container's own subtitle index (Matroska Cues). -->
+    <string name="player_match_source_index">container index</string>
+    <!-- Shown when the scan could not verify anything but a subtitle in the preferred language is
+         on screen anyway. Saying "no subtitle found" there is false: one was chosen and is
+         playing; only the verification failed. -->
+    <string name="player_match_kept_unverified">Keeping %1$s — sync could not be verified</string>
+    <string name="player_match_kept_unverified_score">Keeping %1$s — sync unconfirmed (best %2$d%%)</string>
+    <string name="player_match_scored">Matched: %1$s · %2$d%% (%3$s)</string>
+    <string name="player_match_scored_offset">Matched: %1$s · %2$d%% (%3$s) (auto-offset %4$s)</string>
+    <!-- Marks a subtitle row whose timing auto-match corrected: it is no longer the file as the
+         addon published it. Shown with the shift, e.g. "fixed +1.0s". -->
+    <string name="player_subtitle_auto_retimed">re-timed</string>
+    <string name="player_match_scored_retimed">Matched: %1$s · %2$d%% (%3$s) (re-timed)</string>
+    <string name="player_subtitle_auto_fixed">fixed</string>
+    <string name="player_match_none_language">No well-synced %1$s subtitle found</string>
+    <string name="player_match_none_language_score">No well-synced %1$s subtitle found (best %2$d%%)</string>
+
+    <string name="live_label_today">Today</string>
+    <string name="live_cd_pause">Pause</string>
+    <string name="live_cd_previous_channel">Previous Channel</string>
+    <string name="live_cd_rewind">Rewind</string>
+    <string name="live_cd_fast_forward">Fast Forward</string>
+    <string name="live_cd_next_channel">Next Channel</string>
+    <string name="live_cd_replay">Replay</string>
+
+    <!-- Extracted from code: UI components -->
+    <string name="component_qr_code">QR code</string>
+    <string name="component_screensaver_hint">Press any key to continue</string>
+    <string name="component_badge_live">LIVE</string>
+    <string name="component_badge_tv">TV</string>
+    <string name="component_badge_movie">MOVIE</string>
+    <string name="component_mark_watched">Mark Watched</string>
+    <string name="component_remove_continue_watching">Remove Continue Watching</string>
+    <string name="component_label_tv_series">TV Series</string>
+    <string name="component_label_media">Media</string>
+    <string name="component_media_logo">%1$s logo</string>
+    <string name="component_badge_new_episode">New Episode</string>
+    <string name="component_ep_left_one">1 ep left</string>
+    <string name="component_eps_left">%1$d eps left</string>
+    <string name="component_season_episode_marker">S%1$d • E%2$d</string>
+    <string name="component_next_in_seconds">in %1$d s</string>
+    <string name="component_ctx_mark_watched">Mark as Watched</string>
+    <string name="component_ctx_mark_unwatched">Mark as Unwatched</string>
+    <string name="component_ctx_view_details">View Details</string>
+    <string name="component_ctx_mark_season_watched">Mark Season Watched</string>
+    <string name="component_ctx_mark_season_unwatched">Mark Season Unwatched</string>
+    <string name="component_ctx_season_title">Season %1$d</string>
+    <string name="component_ctx_quick_actions">Quick Actions</string>
+    <string name="loading_sources">Loading sources...</string>
+    <string name="loading_resolving_from">Resolving from %1$s</string>
+    <string name="loading_finding_best_quality">Finding best quality stream...</string>
+    <string name="stream_tab_all_sources">All sources</string>
+    <string name="stream_recently_played">Recently played</string>
+    <string name="stream_title_select_source">Select Source</string>
+    <string name="stream_no_streaming_addons">No Streaming Addons</string>
+    <string name="stream_no_sources_found">No sources found</string>
+    <string name="stream_no_addons_hint">Go to Settings → Addons to add\na streaming addon</string>
+    <string name="stream_try_adding_addons">Try adding more addons</string>
+    <string name="stream_searching_addons">Searching addons (%1$d/%2$d)...</string>
+    <string name="stream_no_sources_match">No sources match this filter</string>
+    <string name="stream_best_match">Best Match</string>
+    <string name="stream_section_addons">ADDONS</string>
+    <string name="stream_metric_total">Total</string>
+    <string name="stream_metric_checked">Checked</string>
+    <string name="stream_status_still_checking_one">%1$s%2$d found - still checking %3$d addon</string>
+    <string name="stream_status_still_checking_many">%1$s%2$d found - still checking %3$d addons</string>
+    <string name="stream_status_searching">%1$s%2$d found - searching sources</string>
+    <string name="stream_status_searching_more">%1$s%2$d found - searching for more sources</string>
+    <string name="stream_status_addons_checked">%1$d found - %2$d/%3$d addons checked</string>
+    <string name="stream_status_found">%1$d found</string>
+    <string name="stream_unknown_source">Unknown source</string>
+    <string name="stream_recommended_source">recommended source</string>
+
+    <!-- Extracted from code: ViewModels and receivers -->
+    <string name="player_error_imdb_resolve">Unable to resolve IMDB ID. Try again.</string>
+    <string name="details_error_load_failed">Failed to load details</string>
+
+
+    <!-- Extracted from code: Login and Watchlist ViewModels -->
+    <string name="login_error_enter_password">Please enter your password</string>
+    <string name="login_error_password_short">Password must be at least 6 characters</string>
+    <string name="login_error_wait_seconds">Please wait %1$ds before creating another account</string>
+    <string name="watchlist_error_refresh">Failed to refresh</string>
+    <string name="watchlist_toast_removed">Removed from watchlist</string>
+    <string name="watchlist_my_watchlist">My Watchlist</string>
+    <string name="watchlist_tracker_default_list">Watchlist</string>
+
+
+    <!-- Extracted from code (data layer): shared labels and errors -->
+    <string name="continue_season_episode">Continue S%1$dE%2$d</string>
+    <string name="play_season_episode">Play S%1$dE%2$d</string>
+    <string name="continue_season_episode_at">Continue S%1$dE%2$d at %3$s</string>
+    <string name="continue_at">Continue at %1$s</string>
+    <string name="continue_from">Continue from %1$s</string>
+    <string name="continue_label">Continue</string>
+    <string name="play_start_s1e1">Start S1E1</string>
+    <string name="launcher_continue_from">%1$s from %2$s</string>
+    <string name="added_to_watchlist">Added to watchlist</string>
+    <string name="catalog_failed_search">Failed to search catalogs</string>
+    <string name="catalog_failed_add">Failed to add catalog</string>
+    <string name="catalog_failed_update">Failed to update catalog</string>
+    <string name="catalog_failed_remove">Failed to remove catalog</string>
+    <string name="catalog_failed_read_metadata">Failed to read catalog metadata</string>
+    <string name="catalog_already_added">Catalog already added</string>
+    <string name="catalog_not_found">Catalog not found</string>
+    <string name="catalog_preinstalled_no_edit">Preinstalled catalogs cannot be edited</string>
+    <string name="tv_link_failed">Failed to link TV</string>
+    <string name="sync_failed">Sync failed: %1$s</string>
+
+    <!-- Extracted from code: SettingsViewModel -->
+    <string name="addon_failed_add">Failed to add addon</string>
+    <string name="tv_link_approved_no_tokens">Approved, but tokens were missing. Try again.</string>
+
+    <!-- SettingsViewModel messages: tracking sync, addons, catalog packs -->
+    <string name="settings_sync_summary">Synced %1$d movies and %2$d episodes</string>
+    <string name="settings_sync_summary_with_failures">Synced %1$d movies and %2$d episodes; %3$s</string>
+    <string name="settings_sync_no_provider">No tracking provider connected</string>
+    <string name="settings_addon_added_with_catalogs">Added %1$s (%2$d catalogs imported)</string>
+    <string name="settings_addon_added_no_catalogs">Added %1$s (no catalogs exposed)</string>
+    <string name="settings_addon_configure">Configure addon</string>
+    <string name="settings_addon_setup_required">Setup required</string>
+    <string name="settings_addon_setup">Set up</string>
+    <string name="settings_addon_setup_first">Set up %1$s first</string>
+    <string name="settings_addon_loading">Loading addon…</string>
+    <string name="settings_addon_install_title">Install addon?</string>
+    <string name="settings_addon_install_trust">Only add addons you trust.</string>
+    <string name="settings_addon_install">Install</string>
+    <string name="settings_addon_already_installed_title">%1$s is already installed</string>
+    <string name="settings_addon_already_installed_message">This link has different settings. Replace the installed one, or keep both?</string>
+    <string name="settings_addon_replace_existing">Replace installed</string>
+    <string name="settings_addon_keep_both">Keep both</string>
+    <string name="settings_addon_configure_qr_title">Configure %1$s</string>
+    <string name="settings_addon_configure_qr_hint">Scan with your phone, change the settings there and tap Install in Pascal The Popcorn on your phone. Then choose Refresh Addons here.</string>
+    <string name="settings_community_addons">Community addons</string>
+    <string name="settings_community_addons_desc">Browse and install addons made by the Stremio community</string>
+    <string name="settings_community_addons_count">%1$d addons from the Stremio community</string>
+    <string name="settings_community_addons_search">Search addons</string>
+    <string name="settings_community_addons_all">All</string>
+    <string name="settings_community_addons_empty">No addons match your search</string>
+    <string name="settings_community_addons_failed">Couldn\'t load community addons</string>
+    <string name="settings_community_addon_configure">Configure</string>
+    <string name="settings_community_addon_configurable">Configurable</string>
+    <string name="settings_community_addon_uninstall">Uninstall</string>
+    <string name="settings_community_addon_removed">Removed %1$s</string>
+    <string name="settings_community_addon_setup_hint">This addon has to be set up before it works. Open Configure, choose your settings, then tap Install on its page.</string>
+    <string name="settings_community_addon_disclaimer">Community addons are made by third parties, not by Pascal The Popcorn. Only add addons you trust.</string>
+    <string name="settings_community_addon_type_movie">Movies</string>
+    <string name="settings_community_addon_type_series">Series</string>
+    <string name="settings_community_addon_type_anime">Anime</string>
+    <string name="settings_community_addon_type_subtitles">Subtitles</string>
+    <string name="settings_community_addon_type_other">Other</string>
+    <string name="settings_community_addon_type_channel">Channels</string>
+    <string name="settings_community_addon_type_tv">TV</string>
+    <string name="settings_community_addon_type_music">Music</string>
+    <string name="settings_addons_cloud_restore_failed">Cloud restore failed; addons were not changed</string>
+    <string name="settings_addons_refresh_report">%1$d addons refreshed, %2$d failed</string>
+    <string name="settings_addons_refresh_failed">Failed to refresh addons</string>
+    <string name="settings_pack_load_failed">Failed to load pack manifest</string>
+    <string name="settings_pack_installed">Installed pack: %1$s</string>
+    <string name="settings_pack_install_failed">Failed to install pack</string>
+    <string name="settings_pack_removed">Pack removed</string>
+    <string name="settings_pack_remove_failed">Failed to remove pack</string>
+
+    <!-- SettingsViewModel messages: catalogs and catalog discovery -->
+    <string name="settings_catalog_added">Added %1$s</string>
+    <string name="settings_catalog_updated">Updated %1$s</string>
+    <string name="settings_catalog_removed">Catalog removed</string>
+    <string name="settings_catalog_unpacked">Catalog row extracted from pack</string>
+    <string name="settings_catalog_search_min_chars">Type at least 2 characters</string>
+    <string name="settings_catalog_search_no_lists">No public lists found</string>
+
+
+    <!-- SettingsViewModel messages: ARVIO Cloud sign-in and sync -->
+
+    <!-- SettingsViewModel messages -->
+    <string name="settings_signing_out">Signing out...</string>
+    <string name="settings_signed_out">Signed out</string>
+
+    <!-- Extracted from code: DetailsViewModel -->
+    <string name="details_no_episodes_season">No episodes found for Season %1$d</string>
+    <string name="details_failed_load_season">Failed to load Season %1$d</string>
+    <string name="details_no_episode_selected">No episode selected</string>
+    <string name="details_failed_update_watched">Failed to update watched status</string>
+    <string name="details_failed_update_watchlist">Failed to update watchlist</string>
+    <string name="details_failed_mark_season_watched">Failed to mark season as watched</string>
+    <string name="details_failed_sync_season_unwatched">Failed to mark Season %1$d as unwatched</string>
+    <string name="details_failed_mark_season_unwatched">Failed to mark season as unwatched</string>
+    <string name="details_marked_watched">Marked as watched</string>
+    <string name="details_marked_unwatched">Marked as unwatched</string>
+    <string name="details_episode_marked_watched">S%1$dE%2$d marked as watched</string>
+    <string name="details_episode_marked_unwatched">S%1$dE%2$d marked as unwatched</string>
+    <string name="details_season_marked_watched">Season %1$d marked as watched</string>
+    <string name="details_season_marked_unwatched">Season %1$d marked as unwatched</string>
+
+    <!-- Extracted from code: Home screen toasts -->
+    <string name="home_no_episode_info">No episode info available</string>
+    <string name="home_already_watched">Already watched</string>
+    <string name="home_removed_continue_watching">Removed from Continue Watching</string>
+    <string name="home_failed_remove_continue_watching">Failed to remove from Continue Watching</string>
+
+    <!-- Catalog repositories -->
+    <string name="catalog_pack_invalid_url_scheme">Invalid URL: must start with http:// or https://</string>
+    <string name="catalog_pack_fetch_failed">Failed to fetch catalog pack from URL</string>
+    <string name="catalog_pack_parse_failed">Failed to parse catalog pack manifest</string>
+    <string name="catalog_pack_missing_id_or_name">Invalid catalog pack manifest: missing ID or Name</string>
+    <string name="catalog_pack_no_catalogs">Invalid catalog pack manifest: catalogs list is empty or missing</string>
+    <string name="catalog_pack_item_incomplete">Invalid catalog pack manifest: catalog items must have a name and url</string>
+    <string name="catalog_pack_duplicate_url">Invalid catalog pack manifest: duplicate catalog URL \'%1$s\'</string>
+    <string name="catalog_pack_manifest_missing_id">Manifest missing ID</string>
+    <string name="catalog_pack_manifest_missing_name">Manifest missing Name</string>
+    <string name="catalog_pack_manifest_missing_catalogs">Manifest missing catalogs</string>
+    <string name="catalog_pack_nothing_to_import">No new or valid catalogs found in this pack to import</string>
+    <string name="catalog_pack_none_for_pack">No catalogs found for pack: %1$s</string>
+    <string name="catalog_url_required">URL is required</string>
+    <string name="catalog_url_invalid">Invalid URL</string>
+    <string name="catalog_url_invalid_format">Invalid URL format</string>
+    <string name="catalog_url_invalid_host">Invalid host</string>
+    <string name="catalog_url_unsupported">Only TMDB URLs are supported</string>
+    <string name="auth_response_incomplete">Auth response incomplete</string>
+    <string name="auth_failed_import_session">Failed to import auth session</string>
+    <string name="auth_google_failed">Google Sign-In failed</string>
+    <string name="auth_unexpected_credential">Unexpected credential type</string>
+    <string name="auth_failed_parse_google">Failed to parse Google credentials</string>
+    <string name="launcher_continue_dash">%1$s - %2$s</string>
+
+    <!-- Extracted from code: Profile / TV / device-auth -->
+    <string name="tv_link_failed_start">Failed to start TV auth</string>
+    <string name="tv_link_failed_poll">Failed to poll TV auth status</string>
+
+    <!-- Extracted from code: Home / Watchlist / Collection -->
+    <string name="home_failed_load_content">Failed to load content</string>
+    <string name="watchlist_failed_remove">Failed to remove from watchlist</string>
+
+
+    <!-- Extracted from code: Auth error messages -->
+    <string name="auth_account_exists">Account already exists. Sign in instead.</string>
+    <string name="auth_signin_retry">Sign in failed. Please try again.</string>
+    <string name="auth_invalid_credentials">Invalid email or password.</string>
+    <string name="auth_verify_email">Please verify your email to continue.</string>
+    <string name="auth_signin_failed">Sign in failed</string>
+    <string name="auth_signup_failed">Sign up failed</string>
+    <string name="auth_unable_create_account">Unable to create account</string>
+
+
+    <!-- Extracted from code: Auth validation / addons / updater / collection templates -->
+    <string name="auth_email_required">Email is required</string>
+    <string name="auth_email_invalid">Enter a valid email address</string>
+    <string name="auth_email_real_required">Use a real email address</string>
+    <string name="addon_opensubtitles_description">Subtitles from OpenSubtitles</string>
+    <string name="addon_error_url_empty">Addon URL is empty</string>
+    <string name="addon_http_local_scraper_description">HTTP local scraper bundle (%1$d HTTP providers)</string>
+
+
+    <!-- Extracted from code: collection template titles (display-only) -->
+    <string name="collections_genre_action">Action</string>
+    <string name="collections_genre_comedy">Comedy</string>
+    <string name="collections_genre_sci_fi">Sci-Fi</string>
+    <string name="collections_genre_thriller">Thriller</string>
+    <string name="collections_genre_drama">Drama</string>
+    <string name="collections_genre_horror">Horror</string>
+    <string name="collections_genre_documentary">Documentary</string>
+    <string name="collections_genre_romance">Romance</string>
+    <string name="collections_genre_animation">Animation</string>
+    <string name="collections_genre_family">Family</string>
+    <string name="collections_genre_fantasy">Fantasy</string>
+    <string name="collections_genre_adventure">Adventure</string>
+
+
+    <!-- TMDB genre names (display-only; the numeric TMDB genre id stays the key) -->
+    <string name="tmdb_genre_crime">Crime</string>
+    <string name="tmdb_genre_history">History</string>
+    <string name="tmdb_genre_music">Music</string>
+    <string name="tmdb_genre_mystery">Mystery</string>
+    <string name="tmdb_genre_tv_movie">TV Movie</string>
+    <string name="tmdb_genre_war">War</string>
+    <string name="tmdb_genre_western">Western</string>
+    <string name="tmdb_genre_action_adventure">Action &amp; Adventure</string>
+    <string name="tmdb_genre_kids">Kids</string>
+    <string name="tmdb_genre_news">News</string>
+    <string name="tmdb_genre_reality">Reality</string>
+    <string name="tmdb_genre_sci_fi_fantasy">Sci-Fi &amp; Fantasy</string>
+    <string name="tmdb_genre_soap">Soap</string>
+    <string name="tmdb_genre_talk">Talk</string>
+    <string name="tmdb_genre_war_politics">War &amp; Politics</string>
+
+
+    <!-- Settings option values (display-only localization) -->
+    <string name="settings_value_any">Any</string>
+    <string name="settings_value_always">Always</string>
+    <string name="settings_value_seamless">Seamless only</string>
+    <string name="settings_value_small">Small</string>
+    <string name="settings_value_medium">Medium</string>
+    <string name="settings_value_large">Large</string>
+    <string name="settings_value_extra_large">Extra Large</string>
+    <string name="settings_value_white">White</string>
+    <string name="settings_value_red">Red</string>
+    <string name="settings_value_orange">Orange</string>
+    <string name="settings_value_yellow">Yellow</string>
+    <string name="settings_value_green">Green</string>
+    <string name="settings_value_blue">Blue</string>
+    <string name="settings_value_indigo">Indigo</string>
+    <string name="settings_value_violet">Violet</string>
+    <string name="settings_value_cyan">Cyan</string>
+    <string name="settings_value_normal">Normal</string>
+    <string name="settings_value_bold">Bold</string>
+    <string name="settings_value_background">Background</string>
+    <string name="settings_value_low">Low</string>
+    <string name="settings_value_bottom">Bottom</string>
+    <string name="settings_value_high">High</string>
+    <string name="settings_value_none">None</string>
+    <string name="settings_value_forced">Forced</string>
+    <string name="settings_value_auto_original">Auto (Original)</string>
+
+
+    <string name="error_not_logged_in">Not logged in</string>
+    <!-- Bottom bar / sidebar entry for the watchlist destination. Separate from
+         library_default, which names an unnamed home-server collection. -->
+    <string name="nav_library">Library</string>
+    <string name="sync_in_progress">Sync already in progress</string>
+
+
+
+    <!-- Discord Rich Presence -->
+
+    <!-- Stream Integrations & Priority -->
+    <string name="stream_integration_stremio">Stremio Addons</string>
+    <string name="stream_integration_stremio_desc">Installed community streaming and debrid addons.</string>
+    <string name="catalog_tmdb_title">TMDB catalog</string>
+    <string name="catalog_url_tmdb_hint">Use a TMDB list, collection, company, network, person, keyword or genre page URL</string>
+    <string name="list_add_to">Add to list</string>
+    <string name="list_picker_loading">Loading your lists…</string>
+    <string name="list_picker_empty">No lists on your connected services</string>
+    <string name="list_added_to">Added to %1$s</string>
+    <string name="list_removed_from">Removed from %1$s</string>
+    <string name="list_update_failed">Could not update %1$s</string>
+    <!-- YouTube collection -->
+    <!-- Personal build (Agent A): Settings -->
+    <string name="personal_show_all_sources">Show all sources</string>
+    <string name="personal_show_all_sources_desc">Off: Play starts the best source for this TV. On: Play opens the full list.</string>
+    <string name="personal_this_tv">This TV</string>
+    <string name="personal_this_tv_not_scanned">Not scanned yet</string>
+    <string name="personal_rescan_tv">Re-scan TV</string>
+    <string name="personal_tv_scanning">Scanning…</string>
+    <string name="personal_settings_group_general">General</string>
+    <string name="personal_settings_refresh_addons_desc">Fetch the latest addon changes</string>
+    <!-- Personal 1.0.1: first-run TV check -->
+    <string name="tv_check_app_name">Pascal The Popcorn</string>
+    <string name="tv_check_welcome_body">First, let\'s check what this TV can play, so Play always picks the best source for it.</string>
+    <string name="tv_check_scan_button">Scan this TV</string>
+    <string name="tv_check_scanning_title">Checking this TV…</string>
+    <string name="tv_check_results_title">Here\'s what this TV can play</string>
+    <string name="tv_check_edit_title">Correct what the scan got wrong</string>
+    <string name="tv_check_screen">Screen</string>
+    <string name="tv_check_hdr">HDR</string>
+    <string name="tv_check_video">Video</string>
+    <string name="tv_check_audio">Audio</string>
+    <string name="tv_check_screen_4k">4K</string>
+    <string name="tv_check_screen_1080p">1080p</string>
+    <string name="tv_check_screen_4k_switch">4K screen</string>
+    <string name="tv_check_screen_4k_switch_desc">Off means a 1080p screen</string>
+    <string name="tv_check_audio_stereo">Stereo</string>
+    <string name="tv_check_set_by_you">set by you</string>
+    <string name="tv_check_preferred_format">Preferred picture format</string>
+    <string name="tv_check_format_best">Best for this TV</string>
+    <string name="tv_check_format_dolby_vision">Dolby Vision</string>
+    <string name="tv_check_format_hdr10_plus">HDR10+</string>
+    <string name="tv_check_format_hdr10">HDR10</string>
+    <string name="tv_check_looks_right">Looks right</string>
+    <string name="tv_check_something_wrong">Something\'s wrong</string>
+    <string name="tv_check_save">Save</string>
+    <string name="tv_check_reset">Reset my changes</string>
+    <string name="tv_check_scan_again">Scan again</string>
+    <string name="tv_check_ram_gb">%1$s GB RAM</string>
+    <string name="tv_check_android_version">Android %1$s</string>
+    <string name="personal_tv_check_open">Check or correct</string>
+    <string name="settings_advanced">Advanced</string>
+    <string name="settings_desc_advanced">Sources, this TV, frame rate, Dolby Vision and volume boost.</string>
+    <string name="autoplay_next_episode">Auto-play next episode</string>
+    <string name="personal_add_watchlist">+ Watchlist</string>
+    <string name="personal_in_watchlist">✓ In Watchlist</string>
+</resources>
